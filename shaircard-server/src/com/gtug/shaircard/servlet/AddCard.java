@@ -3,17 +3,18 @@ package com.gtug.shaircard.servlet;
 import java.io.IOException;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.appengine.api.datastore.Entity;
 import com.google.gson.Gson;
 import com.gtug.shaircard.model.EMFService;
 import com.gtug.shaircard.model.Event;
+import com.gtug.shaircard.model.VCard;
 
-public class UpdateEvent extends HttpServlet {
+public class AddCard extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -21,22 +22,20 @@ public class UpdateEvent extends HttpServlet {
 		resp.setContentType("text/json");
 		String body = Util.getPostBody(req);
 		Gson gson = new Gson();
-		Event e = gson.fromJson(body, Event.class);
+		VCard e = gson.fromJson(body, VCard.class);
 		
 		EntityManager em = EMFService.get().createEntityManager();
-		em.getTransaction().begin();
-		Query q = em.createQuery("SELECT e FROM Event e WHERE e.id = :id");
-		q.setParameter("id", e.getId());
-		Event dbEvent = (Event)q.getSingleResult();
+		em.persist(e);
+		em.close();
 		
-		if (e.getCreatorId().equals(dbEvent.getCreatorId())) {
-			Event.copyData(e, dbEvent);
-			em.getTransaction().commit();
-			resp.getWriter().println("SUCCESS");
-		} else {
-			em.getTransaction().commit();
-			resp.getWriter().println("FAILURE: Wrong creator ID");
-		}
+		em = EMFService.get().createEntityManager();
+		em.getTransaction().begin();
+		Event event = em.find(Event.class, e.getEventId());
+		event.incPeopleCount();
+		em.getTransaction().commit();
+		em.close();
+		
+		resp.getWriter().println("SUCCESS");
 	}
 
 }
