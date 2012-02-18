@@ -1,0 +1,9 @@
+*.class
+*.dex
+bin/*
+nohup.out
+gen/*
+R.java
+*.swp
+obj/*
+tags
