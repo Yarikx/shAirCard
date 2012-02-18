@@ -13,8 +13,9 @@ import com.google.gson.Gson;
 import com.gtug.shaircard.model.EMFService;
 import com.gtug.shaircard.model.Event;
 import com.gtug.shaircard.model.VCard;
+import com.gtug.shaircard.model.VCardImage;
 
-public class AddCard extends HttpServlet {
+public class AddVCard extends HttpServlet {
 	
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -24,9 +25,19 @@ public class AddCard extends HttpServlet {
 		Gson gson = new Gson();
 		VCard e = gson.fromJson(body, VCard.class);
 		
+//		String image = e.getBase64Image();
+		
 		EntityManager em = EMFService.get().createEntityManager();
+//		e.setBase64Image(null);
 		em.persist(e);
 		em.close();
+		
+//		em = EMFService.get().createEntityManager();
+//		VCardImage vci = new VCardImage();
+//		vci.setBase64Image(image);
+//		vci.setVcardId(e.getId());
+//		em.persist(vci);
+//		em.close();
 		
 		em = EMFService.get().createEntityManager();
 		em.getTransaction().begin();

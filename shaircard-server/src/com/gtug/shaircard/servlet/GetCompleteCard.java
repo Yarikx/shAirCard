@@ -1,7 +1,6 @@
 package com.gtug.shaircard.servlet;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -13,35 +12,39 @@ import javax.servlet.http.HttpServletResponse;
 import com.gtug.shaircard.model.EMFService;
 import com.gtug.shaircard.model.Event;
 import com.gtug.shaircard.model.VCard;
+import com.gtug.shaircard.model.VCardImage;
 
-public class GetAllCardsByEventId extends HttpServlet {
-	
+public class GetCompleteCard extends HttpServlet {
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		EntityManager em = EMFService.get().createEntityManager();
-		String eventIdStr = req.getParameter("eventId");
+		String cardIdStr = req.getParameter("vcardId");
 		String password = req.getParameter("password");
-		long eventId;
-		if (eventIdStr == null) {
-			resp.getWriter().println("FAILURE: No ivent ID");
+		long cardId;
+		if (cardIdStr == null) {
+			resp.getWriter().println("FAILURE: No vcard ID");
 			return;
 		} else {
-			eventId = Long.parseLong(eventIdStr);
+			cardId = Long.parseLong(cardIdStr);
 		}
-		Query qGetEvent = em.createQuery("SELECT e FROM Event e WHERE e.id = :id");
-		qGetEvent.setParameter("id", eventId);
+		EntityManager em = EMFService.get().createEntityManager();
+		Query qGetCard = em.createQuery("SELECT c FROM VCard c WHERE c.id = :id");
+		qGetCard.setParameter("id", cardId);
+		VCard card = (VCard)qGetCard.getSingleResult();
 		
+		Query qGetEvent = em.createQuery("SELECT e FROM Event e WHERE e.id = :id");
+		qGetEvent.setParameter("id", card.getEventId());
 		Event event = (Event)qGetEvent.getSingleResult();
+		
+		em.close();
+		
 		if (event.getPassword() != null && !event.getPassword().equals("") && !event.getPassword().equals(password)) {
 			resp.getWriter().println("FAILURE: Wrong event password");
 			return;
 		}
-		Query q = em.createQuery("SELECT c FROM VCard c WHERE c.eventId = :eventid");
-		q.setParameter("eventid", eventId);
-		List<VCard> cList = q.getResultList();
 		
-		resp.getWriter().println(VCard.listToJson(cList));
+		resp.getWriter().println(card.toJson());
 	}
-
+	
 }
