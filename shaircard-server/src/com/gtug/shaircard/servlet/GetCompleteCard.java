@@ -39,7 +39,7 @@ public class GetCompleteCard extends HttpServlet {
 		
 		em.close();
 		
-		if (event.getPassword() != null && !event.getPassword().equals("") && !event.getPassword().equals(password)) {
+		if (false && event.getPassword() != null && !event.getPassword().equals("") && !event.getPassword().equals(password)) {
 			resp.getWriter().println("FAILURE: Wrong event password");
 			return;
 		}

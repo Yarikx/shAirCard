@@ -17,7 +17,7 @@ import com.gtug.shaircard.model.EMFService;
 import com.gtug.shaircard.model.Event;
 
 public class GetClosestEvent extends HttpServlet {
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -30,7 +30,7 @@ public class GetClosestEvent extends HttpServlet {
 		}
 		lat = Double.parseDouble(latStr);
 		lon = Double.parseDouble(lonStr);
-		
+
 		EntityManager em = EMFService.get().createEntityManager();
 		Query q = em.createQuery("SELECT e FROM Event e");
 		List<Event> eList = q.getResultList();
@@ -42,18 +42,20 @@ public class GetClosestEvent extends HttpServlet {
 			public int compare(Event o1, Event o2) {
 				double dist1;
 				if (o1.getLatitude() != null) {
-					dist1 = Math.abs(o1.getLatitude() - llat + o1.getLongitude() - llon);
+					dist1 = Math.abs(o1.getLatitude() - llat
+							+ o1.getLongitude() - llon);
 				} else {
 					return 1;
 				}
-				
+
 				double dist2;
 				if (o2.getLatitude() != null) {
-					dist2 = Math.abs(o2.getLatitude() - llat + o2.getLongitude() - llon);
+					dist2 = Math.abs(o2.getLatitude() - llat
+							+ o2.getLongitude() - llon);
 				} else {
 					return -1;
 				}
-				
+
 				if (dist1 < dist2) {
 					return -1;
 				} else {
@@ -61,11 +63,18 @@ public class GetClosestEvent extends HttpServlet {
 				}
 			}
 		});
-		
+
 		if (eList.isEmpty()) {
-			resp.getWriter().println("{ id = -1 }");			 
+			resp.getWriter().println("{ id = -1 }");
 		} else {
-			resp.getWriter().println(eList.get(0).toJson());
+			Event event = eList.get(0);
+			if ((Math.abs(event.getLatitude() - lat) < Util.CloseLatRange)
+					&& (Math.abs(event.getLongitude() - lon) < lon)) {
+				resp.getWriter().println(event.toJson());
+			} else {
+				resp.getWriter().println("{ id = -1 }");
+			}
+
 		}
 	}
 

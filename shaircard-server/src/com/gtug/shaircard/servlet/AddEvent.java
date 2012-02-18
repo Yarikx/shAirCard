@@ -27,9 +27,6 @@ public class AddEvent extends HttpServlet {
 		em.persist(e);
 		em.close();
 		
-		em = EMFService.get().createEntityManager();
-		Query q = em.createQuery("SELECT e FROM Event e ORDER BY e.id DESC").setMaxResults(1);
-		e = (Event)q.getSingleResult();
 		resp.getWriter().println(e.toJson());
 	}
 
