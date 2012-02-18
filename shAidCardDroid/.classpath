@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="/enroscar/libs/android-support-v4.jar"/>
 	<classpathentry kind="lib" path="/enroscar/libs/FlurryAgent.jar"/>
 	<classpathentry kind="lib" path="/enroscar/libs/gson-2.1.jar" sourcepath="/enroscar/libs/src/gson-2.1-sources.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/enroscar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

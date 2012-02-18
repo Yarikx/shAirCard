@@ -13,6 +13,7 @@
             android:id="@+id/searchEvent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="searchEvents"
             android:text="Button" />
 
         <Button
@@ -41,11 +42,11 @@
 
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/eventList"
+    <LinearLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-        <!-- Preview: listitem=@layout/event_list_item -->
-    </ListView>
+     
+    </LinearLayout>
 
 </LinearLayout>
