@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns="http://java.sun.com/xml/ns/javaee"
+xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+	<servlet>
+		<servlet-name>Shaircard_server</servlet-name>
+		<servlet-class>com.gtug.shaircard.servlet.Shaircard_serverServlet</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>GetAllEvents</servlet-name>
+		<servlet-class>com.gtug.shaircard.servlet.GetAllEvents</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>AddEvent</servlet-name>
+		<servlet-class>com.gtug.shaircard.servlet.AddEvent</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>UpdateEvent</servlet-name>
+		<servlet-class>com.gtug.shaircard.servlet.UpdateEvent</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>GetFilteredEvents</servlet-name>
+		<servlet-class>com.gtug.shaircard.servlet.GetFilteredEvents</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Shaircard_server</servlet-name>
+		<url-pattern>/shaircard_server</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>GetAllEvents</servlet-name>
+		<url-pattern>/get_all_events</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AddEvent</servlet-name>
+		<url-pattern>/add_event</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>UpdateEvent</servlet-name>
+		<url-pattern>/update_event</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>GetFilteredEvents</servlet-name>
+		<url-pattern>/get_filtered_events</url-pattern>
+	</servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+</web-app>
