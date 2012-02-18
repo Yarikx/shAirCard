@@ -3,5 +3,6 @@
 
     <string name="hello">Hello World, ShAirCardDroidActivity!</string>
     <string name="app_name">ShAirCardDroid</string>
+    <string name="update">Update</string>
 
 </resources>
