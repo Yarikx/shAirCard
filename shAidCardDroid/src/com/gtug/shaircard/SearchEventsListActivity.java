@@ -22,16 +22,16 @@ public class SearchEventsListActivity extends OneFragmentActivity<shAirCardApp>{
 		
 		searchField = (EditText) findViewById(R.id.search_field);
 		okButton = (Button) findViewById(R.id.ok);
-		fragment = new EventListFragment();
 	}
 	
 	public void update(View view){
-		fragment.update(searchField.toString(), null, null);
+		fragment.update(searchField.getText().toString(), null, null);
 	}
 
 	@Override
 	protected Fragment createFragment(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		fragment = new EventListFragment();
 		return fragment;
 	}
 

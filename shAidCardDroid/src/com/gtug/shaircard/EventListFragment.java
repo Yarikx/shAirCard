@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
 import com.gtug.shaircard.model.Event;
@@ -49,6 +47,16 @@ public class EventListFragment extends
 			}
 		};
 
+//		getListView().setOnItemClickListener(new OnItemClickListener() {
+//
+//			@Override
+//			public void onItemClick(AdapterView<?> view, View arg1,
+//					int position, long arg3) {
+//				Event event = (Event) view.getItemAtPosition(position);
+//
+//			}
+//		});
+
 	}
 
 	@Override
@@ -68,6 +76,7 @@ public class EventListFragment extends
 	public void onActivityCreated(final Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		setRequestBuilder(new EventsRequestBuilder(getOwnerActivity()));
+
 	}
 
 	public void update(String text, Float longtitude, Float latitude) {
@@ -80,16 +89,6 @@ public class EventListFragment extends
 
 		setRequestBuilder(builder);
 
-		getListView().setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> view, View arg1,
-					int position, long arg3) {
-				Event event = (Event) view.getItemAtPosition(position);
-				
-
-			}
-		});
 	}
 
 }

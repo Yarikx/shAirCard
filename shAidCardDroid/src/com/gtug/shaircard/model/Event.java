@@ -7,21 +7,30 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.stanfy.content.UniqueObject;
 
-public class Event implements Serializable, UniqueObject {
+public class Event implements UniqueObject, Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4990867064309892633L;
 	private Long id;
 	private Double latitude;
 	private Double longitude;
 	private String address;
-	private Date timeBegin;
+	private Date timeBegin = new Date();
+	private Date timeEnd = new Date(timeBegin.getTime() + 86400000);
 	private String name;
 	private String description;
 	private String creatorId;
 	private String password;
+	private Long peopleCount = (long) 0;
 
-	@Override
-	public long getId() {
-		return id.longValue();
+	public Long getPeopleCount() {
+		return peopleCount;
+	}
+
+	public void setPeopleCount(Long peopleCount) {
+		this.peopleCount = peopleCount;
 	}
 
 	public Date getTimeBegin() {
@@ -39,8 +48,6 @@ public class Event implements Serializable, UniqueObject {
 	public void setTimeEnd(Date timeEnd) {
 		this.timeEnd = timeEnd;
 	}
-
-	private Date timeEnd;
 
 	public String getAddress() {
 		return address;
@@ -82,6 +89,10 @@ public class Event implements Serializable, UniqueObject {
 		this.password = password;
 	}
 
+	public long getId() {
+		return id;
+	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -107,4 +118,24 @@ public class Event implements Serializable, UniqueObject {
 		return gson.toJson(l);
 	}
 
+	public void incPeopleCount() {
+		if (peopleCount == null) {
+			peopleCount = (long) 1;
+		} else {
+			peopleCount++;
+		}
+	}
+
+	public static void copyData(Event from, Event to) {
+		to.id = from.id;
+		to.latitude = from.latitude;
+		to.longitude = from.longitude;
+		to.address = from.address;
+		to.timeBegin = from.timeBegin;
+		to.timeEnd = from.timeEnd;
+		to.name = from.name;
+		to.description = from.description;
+		to.creatorId = from.creatorId;
+		to.password = from.password;
+	}
 }
