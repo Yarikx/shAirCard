@@ -100,4 +100,13 @@ public class VCard extends Jsonable {
 		Gson gson = new Gson();
 		return gson.toJson(l);
 	}
+	
+	public static void copyData(VCard from, VCard to) {
+		to.firstName = from.firstName;
+		to.middleName = from.middleName;
+		to.surname = from.surname;
+		to.company = from.company;
+		to.position = from.position;
+		to.base64Image = from.base64Image;
+	}
 }
