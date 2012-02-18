@@ -1,5 +1,7 @@
 package com.gtug.shaircard.model;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,7 +10,7 @@ import javax.persistence.Id;
 import com.google.gson.Gson;
 
 @Entity
-public class VCard {
+public class VCard extends Jsonable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -94,9 +96,17 @@ public class VCard {
 		return card;
 	}
 	
-	public String toJson() {
+	public static String listToJson(List<VCard> l) {
 		Gson gson = new Gson();
-		return gson.toJson(this);
+		return gson.toJson(l);
 	}
 	
+	public static void copyData(VCard from, VCard to) {
+		to.firstName = from.firstName;
+		to.middleName = from.middleName;
+		to.surname = from.surname;
+		to.company = from.company;
+		to.position = from.position;
+		to.base64Image = from.base64Image;
+	}
 }

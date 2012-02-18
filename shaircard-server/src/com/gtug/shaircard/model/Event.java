@@ -19,12 +19,32 @@ public class Event extends Jsonable {
 	private Double latitude;
 	private Double longitude;
 	private String address;
-	private Date timeBegin;
+	private Date timeBegin = new Date();
+	private Date timeEnd = new Date(timeBegin.getTime() + 86400000);
 	private String name;
 	private String description;
 	private String creatorId;
 	private String password;
+	private Boolean usePassword = true;
 	
+	public Boolean getUsePassword() {
+		return usePassword;
+	}
+
+	public void setUsePassword(Boolean usePassword) {
+		this.usePassword = usePassword;
+	}
+
+	private Long peopleCount = (long) 0;
+
+	public Long getPeopleCount() {
+		return peopleCount;
+	}
+
+	public void setPeopleCount(Long peopleCount) {
+		this.peopleCount = peopleCount;
+	}
+
 	public Date getTimeBegin() {
 		return timeBegin;
 	}
@@ -41,8 +61,6 @@ public class Event extends Jsonable {
 		this.timeEnd = timeEnd;
 	}
 
-	private Date timeEnd;
-	
 	public String getAddress() {
 		return address;
 	}
@@ -50,7 +68,7 @@ public class Event extends Jsonable {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
+
 	public String getName() {
 		return name;
 	}
@@ -106,10 +124,31 @@ public class Event extends Jsonable {
 	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
-	
+
 	public static String listToJson(List<Event> l) {
 		Gson gson = new Gson();
 		return gson.toJson(l);
 	}
-	
+
+	public void incPeopleCount() {
+		if (peopleCount == null) {
+			peopleCount = (long)1;
+		} else {
+			peopleCount++;
+		}
+	}
+
+	public static void copyData(Event from, Event to) {
+		to.id = from.id;
+		to.latitude = from.latitude;
+		to.longitude = from.longitude;
+		to.address = from.address;
+		to.timeBegin = from.timeBegin;
+		to.timeEnd = from.timeEnd;
+		to.name = from.name;
+		to.description = from.description;
+		to.creatorId = from.creatorId;
+		to.password = from.password;
+		to.usePassword = (to.password == null || to.password.equals(""));
+	}
 }

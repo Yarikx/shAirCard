@@ -22,14 +22,14 @@ public class AddEvent extends HttpServlet {
 		String body = Util.getPostBody(req);
 		Gson gson = new Gson();
 		Event e = gson.fromJson(body, Event.class);
+		if (e.getPassword() != null) {
+			e.setUsePassword(true);
+		}
 		
 		EntityManager em = EMFService.get().createEntityManager();
 		em.persist(e);
 		em.close();
 		
-		em = EMFService.get().createEntityManager();
-		Query q = em.createQuery("SELECT e FROM Event e ORDER BY e.id DESC").setMaxResults(1);
-		e = (Event)q.getSingleResult();
 		resp.getWriter().println(e.toJson());
 	}
 

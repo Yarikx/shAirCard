@@ -30,18 +30,12 @@ public class UpdateEvent extends HttpServlet {
 		Event dbEvent = (Event)q.getSingleResult();
 		
 		if (e.getCreatorId().equals(dbEvent.getCreatorId())) {
-			dbEvent.setAddress(e.getAddress());
-			dbEvent.setDescription(e.getDescription());
-			dbEvent.setLatitude(e.getLatitude());
-			dbEvent.setLongitude(e.getLongitude());
-			dbEvent.setName(e.getName());
-			dbEvent.setTimeBegin(e.getTimeBegin());
-			dbEvent.setTimeEnd(e.getTimeEnd());
+			Event.copyData(e, dbEvent);
 			em.getTransaction().commit();
 			resp.getWriter().println("SUCCESS");
 		} else {
 			em.getTransaction().commit();
-			resp.getWriter().println("FAILURE");
+			resp.getWriter().println("FAILURE: Wrong creator ID");
 		}
 	}
 
