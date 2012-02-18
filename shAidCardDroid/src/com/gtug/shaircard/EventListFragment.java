@@ -1,10 +1,16 @@
 package com.gtug.shaircard;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.StreamCorruptedException;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
 import com.gtug.shaircard.model.Event;
@@ -16,11 +22,26 @@ import com.stanfy.views.list.PageFetcher;
 
 public class EventListFragment extends
 		FetchingListFragment<shAirCardApp, Event> {
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		RENDERER = new ElementRenderer<Event>(R.layout.event_list_item) {
+		RENDERER = createRenderer(getOwnerActivity().getApp());
+
+		// getListView().setOnItemClickListener(new OnItemClickListener() {
+		//
+		// @Override
+		// public void onItemClick(AdapterView<?> view, View arg1,
+		// int position, long arg3) {
+		// Event event = (Event) view.getItemAtPosition(position);
+		//
+		// }
+		// });
+
+	}
+
+	public static ElementRenderer<Event> createRenderer(final shAirCardApp app) {
+		return new ElementRenderer<Event>(R.layout.event_list_item) {
 			@Override
 			public void render(final Adapter adapter, final ViewGroup parent,
 					final Event element, final View view, final Object holder,
@@ -28,8 +49,8 @@ public class EventListFragment extends
 				final EventHolder h = (EventHolder) holder;
 				h.name.setText(element.getName());
 				h.location.setText(element.getAddress());
-				h.admin.setVisibility(EventListFragment.this.getOwnerActivity()
-						.getApp().deviceId.equals(element.getCreatorId()) ? View.VISIBLE
+				h.memberCount.setText(""+element.getPeopleCount());
+				h.admin.setVisibility(app.deviceId.equals(element.getCreatorId()) ? View.VISIBLE
 						: View.INVISIBLE);
 
 			}
@@ -46,17 +67,6 @@ public class EventListFragment extends
 				return h;
 			}
 		};
-
-//		getListView().setOnItemClickListener(new OnItemClickListener() {
-//
-//			@Override
-//			public void onItemClick(AdapterView<?> view, View arg1,
-//					int position, long arg3) {
-//				Event event = (Event) view.getItemAtPosition(position);
-//
-//			}
-//		});
-
 	}
 
 	@Override
@@ -77,6 +87,30 @@ public class EventListFragment extends
 		super.onActivityCreated(savedInstanceState);
 		setRequestBuilder(new EventsRequestBuilder(getOwnerActivity()));
 
+		getListView().setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> adapter, View arg1, int position,
+					long arg3) {
+				Event event = (Event) adapter.getItemAtPosition(position);
+				try {
+					EventListFragment.this.getOwnerActivity().getApp().addFavorite(event);
+					getOwnerActivity().finish();
+				} catch (StreamCorruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	public void update(String text, Float longtitude, Float latitude) {

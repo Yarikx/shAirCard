@@ -8,23 +8,22 @@ import android.widget.EditText;
 
 import com.stanfy.app.activities.OneFragmentActivity;
 
-public class SearchEventsListActivity extends OneFragmentActivity<shAirCardApp>{
-	
-	
+public class SearchEventsListActivity extends OneFragmentActivity<shAirCardApp> {
+
 	EditText searchField;
 	Button okButton;
 	EventListFragment fragment;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		
+
 		searchField = (EditText) findViewById(R.id.search_field);
 		okButton = (Button) findViewById(R.id.ok);
 	}
-	
-	public void update(View view){
+
+	public void update(View view) {
 		fragment.update(searchField.getText().toString(), null, null);
 	}
 
@@ -40,5 +39,5 @@ public class SearchEventsListActivity extends OneFragmentActivity<shAirCardApp>{
 		// TODO Auto-generated method stub
 		return R.layout.search_events_activity;
 	}
-	
+
 }

@@ -12,6 +12,8 @@ public class EventsRequestBuilder extends ListRequestBuilder {
 
 	public EventsRequestBuilder(final Context context) {
 		super(context);
+		
+		addSimpleParameter("onlyNow", false);
 	}
 
 	public EventsRequestBuilder setText(String text) {
