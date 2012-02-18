@@ -16,26 +16,21 @@ import javax.servlet.http.HttpServletResponse;
 import com.gtug.shaircard.model.EMFService;
 import com.gtug.shaircard.model.Event;
 
-public class GetFilteredEvents extends HttpServlet {
-
+public class GetClosestEvent extends HttpServlet {
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		String requestText = req.getParameter("requestText");
 		String latStr = req.getParameter("latitude");
 		String lonStr = req.getParameter("longitude");
 		double lat = 0, lon = 0;
-		if (requestText == null) {
-			requestText = "";
+		if (latStr == null || lonStr == null) {
+			resp.getWriter().println("FAILURE: no coordinates");
+			return;
 		}
-		if (latStr != null) {
-			lat = Double.parseDouble(latStr);
-		}
-		if (lonStr != null) {
-			lon = Double.parseDouble(lonStr);
-		}
-		String[] keywords = requestText.split(",");
-
+		lat = Double.parseDouble(latStr);
+		lon = Double.parseDouble(lonStr);
+		
 		EntityManager em = EMFService.get().createEntityManager();
 		Query q = em.createQuery("SELECT e FROM Event e");
 		List<Event> eList = q.getResultList();
@@ -67,25 +62,11 @@ public class GetFilteredEvents extends HttpServlet {
 			}
 		});
 		
-		List<Event> fList = new ArrayList<Event>();
-		int count = 0;
-		for (Event e : eList) {
-			for (String s : keywords) {
-				String ss = ".*" + s.toLowerCase() + ".*";
-				System.out.println("The ss: " + ss);
-				if ((e.getName() != null && e.getName().toLowerCase().matches(ss)) || (e.getDescription() != null && e.getDescription().toLowerCase().matches(ss))
-						|| ((e.getAddress() != null && e.getAddress().toLowerCase().matches(ss)))) {
-					fList.add(e);
-					count++;
-					break;
-				}
-			}
-			if (count >= 20) {
-				break;
-			}
+		if (eList.isEmpty()) {
+			resp.getWriter().println("{ id = -1 }");			 
+		} else {
+			resp.getWriter().println(eList.get(0).toJson());
 		}
-
-		resp.getWriter().println(Event.listToJson(fList));
 	}
 
 }

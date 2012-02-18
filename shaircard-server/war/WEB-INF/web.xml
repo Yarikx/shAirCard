@@ -5,10 +5,6 @@ xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet>
-		<servlet-name>Shaircard_server</servlet-name>
-		<servlet-class>com.gtug.shaircard.servlet.Shaircard_serverServlet</servlet-class>
-	</servlet>
-	<servlet>
 		<servlet-name>GetAllEvents</servlet-name>
 		<servlet-class>com.gtug.shaircard.servlet.GetAllEvents</servlet-class>
 	</servlet>
@@ -24,10 +20,18 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>GetFilteredEvents</servlet-name>
 		<servlet-class>com.gtug.shaircard.servlet.GetFilteredEvents</servlet-class>
 	</servlet>
-	<servlet-mapping>
-		<servlet-name>Shaircard_server</servlet-name>
-		<url-pattern>/shaircard_server</url-pattern>
-	</servlet-mapping>
+	<servlet>
+		<servlet-name>GetClosestEvent</servlet-name>
+		<servlet-class>com.gtug.shaircard.servlet.GetClosestEvent</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>AddCard</servlet-name>
+		<servlet-class>com.gtug.shaircard.servlet.AddCard</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>GetAllCardsByEventId</servlet-name>
+		<servlet-class>com.gtug.shaircard.servlet.GetAllCardsByEventId</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>GetAllEvents</servlet-name>
 		<url-pattern>/get_all_events</url-pattern>
@@ -43,6 +47,18 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet-mapping>
 		<servlet-name>GetFilteredEvents</servlet-name>
 		<url-pattern>/get_filtered_events</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>GetClosestEvent</servlet-name>
+		<url-pattern>/get_closest_event</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AddCard</servlet-name>
+		<url-pattern>/add_card</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>GetAllCardsByEventId</servlet-name>
+		<url-pattern>/get_all_cards_by_eventid</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

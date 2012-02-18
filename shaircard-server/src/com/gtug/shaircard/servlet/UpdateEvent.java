@@ -37,11 +37,12 @@ public class UpdateEvent extends HttpServlet {
 			dbEvent.setName(e.getName());
 			dbEvent.setTimeBegin(e.getTimeBegin());
 			dbEvent.setTimeEnd(e.getTimeEnd());
+			dbEvent.setPassword(e.getPassword());
 			em.getTransaction().commit();
 			resp.getWriter().println("SUCCESS");
 		} else {
 			em.getTransaction().commit();
-			resp.getWriter().println("FAILURE");
+			resp.getWriter().println("FAILURE: Wrong creator ID");
 		}
 	}
 
