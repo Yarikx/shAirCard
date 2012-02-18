@@ -9,7 +9,8 @@ import com.stanfy.serverapi.request.Operation;
  */
 public enum OurOperation implements Operation {
 
-  GET_TWEETS(SIMPLE_GET, "https://api.twitter.com/1/statuses/user_timeline.json");
+  GET_ALL_EVENTS(SIMPLE_GET, "http://shaircard.appspot.com/get_all_events"),
+  GET_FILTERED_EVENTS(SIMPLE_GET, "http://shaircard.appspot.com/get_filtered_events");
 
   /** Type */
   private final int type;

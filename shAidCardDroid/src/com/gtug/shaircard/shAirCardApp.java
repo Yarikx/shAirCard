@@ -2,7 +2,10 @@ package com.gtug.shaircard;
 
 import java.util.ArrayList;
 
+import android.telephony.TelephonyManager;
+
 import com.google.gson.reflect.TypeToken;
+import com.gtug.shaircard.model.Event;
 import com.stanfy.app.Application;
 import com.stanfy.serverapi.RequestMethodHelper;
 import com.stanfy.serverapi.request.RequestDescription;
@@ -13,11 +16,16 @@ public class shAirCardApp extends Application{
 
 	/** Application authority for content provider configuration. */
 	  public static final String APP_AUTHORITY = "com.gtug.shaircard";
+	  
+	  public String deviceId;
+	  public TelephonyManager manager;
 
 	  @Override
 	  public void onCreate() {
 	    super.onCreate();
 	    setImagesDAOAuthority(APP_AUTHORITY);
+	    manager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+	    deviceId = manager.getDeviceId();
 	  }
 
 	  @Override
@@ -35,8 +43,8 @@ public class shAirCardApp extends Application{
 	    @Override
 	    public ParserContext createParserContext(final RequestDescription requestDescription) {
 	      switch (OurOperation.byCode(requestDescription.getOperationCode())) {
-	      case GET_TWEETS:
-	        return OneClassModelParserContext.create(new TypeToken<ArrayList<Tweet>>() {});
+	      case GET_ALL_EVENTS:
+	        return OneClassModelParserContext.create(new TypeToken<ArrayList<Event>>() {});
 	      default:
 	        return super.createParserContext(requestDescription);
 	      }
