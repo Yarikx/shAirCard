@@ -25,6 +25,16 @@ public class Event extends Jsonable {
 	private String description;
 	private String creatorId;
 	private String password;
+	private Boolean usePassword = true;
+	
+	public Boolean getUsePassword() {
+		return usePassword;
+	}
+
+	public void setUsePassword(Boolean usePassword) {
+		this.usePassword = usePassword;
+	}
+
 	private Long peopleCount = (long) 0;
 
 	public Long getPeopleCount() {
@@ -139,5 +149,6 @@ public class Event extends Jsonable {
 		to.description = from.description;
 		to.creatorId = from.creatorId;
 		to.password = from.password;
+		to.usePassword = (to.password == null || to.password.equals(""));
 	}
 }

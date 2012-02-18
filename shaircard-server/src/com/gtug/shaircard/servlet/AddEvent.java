@@ -22,6 +22,9 @@ public class AddEvent extends HttpServlet {
 		String body = Util.getPostBody(req);
 		Gson gson = new Gson();
 		Event e = gson.fromJson(body, Event.class);
+		if (e.getPassword() != null) {
+			e.setUsePassword(true);
+		}
 		
 		EntityManager em = EMFService.get().createEntityManager();
 		em.persist(e);
