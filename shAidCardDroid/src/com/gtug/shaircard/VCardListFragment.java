@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.StreamCorruptedException;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +15,22 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
 import com.gtug.shaircard.model.Event;
+import com.gtug.shaircard.model.VCard;
 import com.stanfy.app.fragments.list.FetchingListFragment;
 import com.stanfy.images.ImagesManagerContext;
+import com.stanfy.views.LoadableImageView;
 import com.stanfy.views.list.Fetcher;
 import com.stanfy.views.list.ModelListAdapter.ElementRenderer;
 import com.stanfy.views.list.PageFetcher;
 
-public class EventListFragment extends
-		FetchingListFragment<shAirCardApp, Event> {
+public class VCardListFragment extends
+		FetchingListFragment<shAirCardApp, VCard> {
+	
+	Long eventId;
+
+	public VCardListFragment(Event event) {
+		eventId = event.getId();
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,36 +49,37 @@ public class EventListFragment extends
 
 	}
 
-	public static class EventHolder {
+	static class VcardHolder {
+		LoadableImageView imageView;
 		TextView name;
-		TextView location;
-		View admin;
-		TextView memberCount;
+		TextView company;
 	}
 
-	public static ElementRenderer<Event> createRenderer(final shAirCardApp app) {
-		return new ElementRenderer<Event>(R.layout.event_list_item) {
+	public static ElementRenderer<VCard> createRenderer(final shAirCardApp app) {
+		return new ElementRenderer<VCard>(R.layout.vcard_item) {
 			@Override
 			public void render(final Adapter adapter, final ViewGroup parent,
-					final Event element, final View view, final Object holder,
+					final VCard element, final View view, final Object holder,
 					final int position) {
-				final EventHolder h = (EventHolder) holder;
-				h.name.setText(element.getName());
-				h.location.setText(element.getAddress());
-				h.memberCount.setText("" + element.getPeopleCount());
-				h.admin.setVisibility(app.deviceId.equals(element
-						.getCreatorId()) ? View.VISIBLE : View.INVISIBLE);
+				final VcardHolder h = (VcardHolder) holder;
+				h.name.setText(element.getFirstName() + " "
+						+ element.getSurname());
+				h.company.setText(element.getCompany());
+				// TODO get image uri
+				h.imageView
+						.setImageURI(Uri
+								.parse("http://forum.lineagec1.com/style_emoticons/default/trollface.png"));
 
 			}
 
 			@Override
 			public Object createHolder(final View view,
 					final ImagesManagerContext<?> imagesManagerContext) {
-				final EventHolder h = new EventHolder();
+				final VcardHolder h = new VcardHolder();
+				h.imageView = (LoadableImageView) view.findViewById(R.id.photo);
+				h.imageView.setImagesManagerContext(imagesManagerContext);
 				h.name = (TextView) view.findViewById(R.id.name);
-				h.location = (TextView) view.findViewById(R.id.location);
-				h.admin = view.findViewById(R.id.admin);
-				h.memberCount = (TextView) view.findViewById(R.id.memersCount);
+				h.company = (TextView) view.findViewById(R.id.company);
 
 				return h;
 			}
@@ -77,16 +87,16 @@ public class EventListFragment extends
 	}
 
 	@Override
-	protected ElementRenderer<Event> createRenderer() {
+	protected ElementRenderer<VCard> createRenderer() {
 		return RENDERER;
 	}
 
-	private ElementRenderer<Event> RENDERER;
+	private ElementRenderer<VCard> RENDERER;
 
 	@Override
-	public Fetcher<Event> createAdapter(final Context context,
-			final ElementRenderer<Event> renderer) {
-		return new PageFetcher<Event>(context, renderer, getRequestToken());
+	public Fetcher<VCard> createAdapter(final Context context,
+			final ElementRenderer<VCard> renderer) {
+		return new PageFetcher<VCard>(context, renderer, getRequestToken());
 	}
 
 	@Override
@@ -99,24 +109,8 @@ public class EventListFragment extends
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View arg1,
 					int position, long arg3) {
-				Event event = (Event) adapter.getItemAtPosition(position);
-				try {
-					EventListFragment.this.getOwnerActivity().getApp()
-							.addFavorite(event);
-					getOwnerActivity().finish();
-				} catch (StreamCorruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				VCard vcard = (VCard) adapter.getItemAtPosition(position);
+				// TODO
 			}
 		});
 	}

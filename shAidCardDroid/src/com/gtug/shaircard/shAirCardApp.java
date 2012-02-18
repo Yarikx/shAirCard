@@ -54,6 +54,7 @@ public class shAirCardApp extends Application {
 				final RequestDescription requestDescription) {
 			switch (OurOperation.byCode(requestDescription.getOperationCode())) {
 			case GET_FILTERED_EVENTS:
+			case GET_ALL_VCARDS_BY_EVENTID:
 				return OneClassModelParserContext
 						.create(new TypeToken<ArrayList<Event>>() {
 						});

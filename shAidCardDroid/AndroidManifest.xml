@@ -31,6 +31,11 @@
             android:name=".SearchEventsListActivity"
             android:label="@string/search" >
         </activity>
+        
+        <activity
+            android:name=".EventVcardsActivity"
+            android:label="@string/event" >
+        </activity>
 
         <!-- Main application service. Deals with remote server API. -->
         <service android:name="com.stanfy.app.service.ApplicationService" />

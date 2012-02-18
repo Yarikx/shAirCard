@@ -10,7 +10,8 @@ import com.stanfy.serverapi.request.Operation;
 public enum OurOperation implements Operation {
 
   GET_ALL_EVENTS(SIMPLE_GET, "http://shaircard.appspot.com/get_all_events"),
-  GET_FILTERED_EVENTS(SIMPLE_GET, "http://shaircard.appspot.com/get_filtered_events");
+  GET_FILTERED_EVENTS(SIMPLE_GET, "http://shaircard.appspot.com/get_filtered_events"),
+  GET_ALL_VCARDS_BY_EVENTID(SIMPLE_GET, "http://shaircard.appspot.com/get_all_vcards_by_eventid");
 
   /** Type */
   private final int type;

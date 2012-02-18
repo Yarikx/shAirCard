@@ -8,11 +8,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 
 import com.gtug.shaircard.model.Event;
 import com.stanfy.views.list.ListView;
 import com.stanfy.views.list.ModelListAdapter;
-import com.stanfy.views.list.OneTimeLoadAdapter;
 
 public class ShAirCardDroidActivity extends Activity {
 
@@ -31,6 +32,20 @@ public class ShAirCardDroidActivity extends Activity {
 
 		app = (shAirCardApp) getApplication();
 
+		listView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> adapter, View view,
+					int position, long arg3) {
+				Event event = (Event) adapter.getItemAtPosition(position);
+				Intent intent = new Intent(ShAirCardDroidActivity.this,
+						EventVcardsActivity.class);
+				intent.putExtra("event", event);
+				startActivity(intent);
+
+			}
+		});
+
 	}
 
 	@Override
@@ -48,6 +63,7 @@ public class ShAirCardDroidActivity extends Activity {
 		try {
 			adapter.replace(app.getFavorites());
 			listView.setAdapter(adapter);
+
 		} catch (StreamCorruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
