@@ -21,6 +21,7 @@ public class GetClosestEvent extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		resp.setCharacterEncoding("UTF-8");
 		String latStr = req.getParameter("latitude");
 		String lonStr = req.getParameter("longitude");
 		double lat = 0, lon = 0;

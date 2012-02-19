@@ -22,6 +22,7 @@ public class GetFilteredEvents extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		resp.setCharacterEncoding("UTF-8");
 		String requestText = req.getParameter("requestText");
 		String latStr = req.getParameter("latitude");
 		String lonStr = req.getParameter("longitude");

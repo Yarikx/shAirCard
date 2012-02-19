@@ -18,6 +18,7 @@ public class GetAllEvents extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		resp.setContentType("text/plain");
+		resp.setCharacterEncoding("UTF-8");
 		
 		EntityManager em2 = EMFService.get().createEntityManager();
 		Query q = em2.createQuery("SELECT e FROM Event e");
