@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:textSize="18dp"
-        android:text="Event Name" />
+        android:text="Event Name"
+        android:textSize="18dp" />
 
     <TextView
         android:id="@+id/location"
@@ -20,8 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/name"
-        android:textSize="10dp"
-        android:text="location" />
+        android:text="location"
+        android:textSize="10dp" />
 
     <Button
         android:id="@+id/admin"
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:text="gear" />
+        android:text="@string/add_vcard" />
 
     <TextView
         android:id="@+id/memersCount"

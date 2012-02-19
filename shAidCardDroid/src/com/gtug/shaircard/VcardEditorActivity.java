@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -96,11 +97,11 @@ public class VcardEditorActivity extends Activity {
 
 	}
 
-	public String getRealPathFromURI(Uri contentUri) {
+	public static String getRealPathFromURI(Uri contentUri, Activity activity) {
 
 		// can post image
 		String[] proj = { MediaStore.Images.Media.DATA };
-		Cursor cursor = managedQuery(contentUri, proj, // Which columns to
+		Cursor cursor = activity.managedQuery(contentUri, proj, // Which columns to
 														// return
 				null, // WHERE clause; which rows to return (all rows)
 				null, // WHERE clause selection arguments (none)
@@ -119,7 +120,7 @@ public class VcardEditorActivity extends Activity {
 		switch (requestCode) {
 		case IMAGE_PICK_CODE:
 			if (resultCode == RESULT_OK) {
-				String path = getRealPathFromURI(data.getData());
+				String path = getRealPathFromURI(data.getData(),this);
 
 				Uri temp = Uri.parse(path);
 

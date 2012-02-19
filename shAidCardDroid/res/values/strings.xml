@@ -13,5 +13,6 @@
     <string name="photo">Photo</string>
     <string name="company">Company</string>
     <string name="save">Save</string>
+    <string name="add_vcard">add VCard</string>
 
 </resources>
