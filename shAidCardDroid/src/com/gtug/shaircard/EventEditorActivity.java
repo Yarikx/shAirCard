@@ -7,6 +7,8 @@ import java.util.GregorianCalendar;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
+import android.app.TimePickerDialog.OnTimeSetListener;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -15,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 
 import com.gtug.shaircard.model.Event;
 import com.stanfy.app.activities.OneRequestModelActivity;
@@ -59,6 +62,21 @@ public class EventEditorActivity extends
 			updateTimeButtons();
 		}
 	};
+	
+//	final TimePickerDialog.OnTimeSetListener startTimeListener = new OnTimeSetListener() {
+//		
+//		@Override
+//		public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+//			GregorianCalendar date = new GregorianCalendar(event.getTimeBegin());
+//			date.set(Calendar.YEAR, year);
+//			date.set(Calendar.MONTH, monthOfYear);
+//			date.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+//			event.setTimeBegin(date.getTime());
+//			updateTimeButtons();
+//			// TODO Auto-generated method stub
+//			
+//		}
+//	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 
@@ -101,7 +102,7 @@ public class VCardListFragment extends
 	@Override
 	public Fetcher<VCard> createAdapter(final Context context,
 			final ElementRenderer<VCard> renderer) {
-		
+
 		return new PageFetcher<VCard>(context, renderer, getRequestToken());
 	}
 
@@ -116,7 +117,10 @@ public class VCardListFragment extends
 			public void onItemClick(AdapterView<?> adapter, View arg1,
 					int position, long arg3) {
 				VCard vcard = (VCard) adapter.getItemAtPosition(position);
-				// TODO
+				AddContact.addContact(getOwnerActivity(), vcard.getFirstName()
+						+ " " + vcard.getSurname(), vcard.getPhone(), vcard
+						.getEmail(), vcard.getCompany());
+				Toast.makeText(getOwnerActivity(), "Contact was added", Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
