@@ -22,7 +22,10 @@ public class VcardEditorActivity extends Activity {
 	private static final int IMAGE_PICK_CODE = 10;
 	LoadableImageView photo;
 	EditText name;
+	EditText surname;
 	EditText company;
+	EditText email;
+	EditText phone;
 
 	shAirCardApp app;
 
@@ -41,7 +44,10 @@ public class VcardEditorActivity extends Activity {
 
 		photo = (LoadableImageView) findViewById(R.id.photo);
 		name = (EditText) findViewById(R.id.name);
+		surname = (EditText) findViewById(R.id.surname);
 		company = (EditText) findViewById(R.id.company);
+		email = (EditText) findViewById(R.id.email);
+		phone = (EditText) findViewById(R.id.phone);
 
 		try {
 			card = (VCard) getIntent().getExtras().get("vcard");
@@ -50,7 +56,10 @@ public class VcardEditorActivity extends Activity {
 			imageUri = Uri.parse(card.localUri);
 			photo.setImageURI(imageUri);
 			name.setText(card.getFirstName());
+			surname.setText(card.getSurname());
 			company.setText(card.getCompany());
+			email.setText(card.getEmail());
+			phone.setText(card.getPhone());
 
 		} catch (NullPointerException e) {
 			card = new VCard();
@@ -75,7 +84,10 @@ public class VcardEditorActivity extends Activity {
 			vCard.localUri = imageUri.toString();
 		}
 		vCard.setFirstName(name.getText().toString());
+		vCard.setSurname(surname.getText().toString());
 		vCard.setCompany(company.getText().toString());
+		vCard.setEmail(email.getText().toString());
+		vCard.setPhone(phone.getText().toString());
 
 		list.add(vCard);
 		try {
