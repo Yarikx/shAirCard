@@ -77,6 +77,7 @@ public class EventVcardsActivity extends OneFragmentActivity<shAirCardApp> {
 			}
 
 			vcard.setEventId(event.getId());
+			vcard.setCreatorId(getApp().deviceId);
 
 			new VCardSendRequestBuilder(this, vcard).execute();
 		}

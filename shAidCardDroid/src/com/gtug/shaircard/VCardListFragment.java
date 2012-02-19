@@ -71,6 +71,8 @@ public class VCardListFragment extends
 											+ element.getId()));
 				} else if (element.localUri != null) {
 					h.imageView.setImageURI(Uri.parse(element.localUri));
+				} else {
+					h.imageView.setImageDrawable(null);
 				}
 
 			}

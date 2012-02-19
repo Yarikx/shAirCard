@@ -53,6 +53,7 @@ public class ShAirCardDroidActivity extends Activity {
 		super.onResume();
 		update(null);
 
+		
 	}
 
 	public void update(View view) {
@@ -81,6 +82,10 @@ public class ShAirCardDroidActivity extends Activity {
 
 	public void searchEvents(View view) {
 		startActivity(new Intent(this, SearchEventsListActivity.class));
+	}
+	
+	public void addEvent(View view) {
+		startActivity(new Intent(this, EventEditorActivity.class));
 	}
 
 	public void openManager(View view) {

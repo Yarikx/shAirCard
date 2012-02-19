@@ -43,6 +43,10 @@
             android:name=".VcardEditorActivity"
             android:label="@string/vcard" >
         </activity>
+        <activity
+            android:name=".EventEditorActivity"
+            android:label="@string/event" >
+        </activity>
 
         <!-- Main application service. Deals with remote server API. -->
         <service android:name="com.stanfy.app.service.ApplicationService" />
