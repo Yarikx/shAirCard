@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import android.telephony.TelephonyManager;
@@ -14,6 +13,13 @@ import com.google.gson.reflect.TypeToken;
 import com.gtug.shaircard.model.Event;
 import com.gtug.shaircard.model.VCard;
 import com.stanfy.app.Application;
+import com.stanfy.images.DefaultDownloader;
+import com.stanfy.images.DefaultImagesDAO;
+import com.stanfy.images.Downloader;
+import com.stanfy.images.ImagesManager;
+import com.stanfy.images.ImagesManagerContext;
+import com.stanfy.images.ImagesManagerContext.MemCacheMode;
+import com.stanfy.images.model.CachedImage;
 import com.stanfy.serverapi.RequestMethodHelper;
 import com.stanfy.serverapi.request.RequestDescription;
 import com.stanfy.serverapi.response.ParserContext;
@@ -30,6 +36,30 @@ public class shAirCardApp extends Application {
 
 	public String deviceId;
 	public TelephonyManager manager;
+
+	@Override
+	protected ImagesManagerContext<?> createImagesContext() {
+		final Downloader downloader = new DefaultDownloader(
+				getHttpClientsPool());
+		final ImagesManager<CachedImage> imagesManager = new ImagesManager<CachedImage>(
+				getResources());
+		final DefaultImagesDAO imagesDAO = new DefaultImagesDAO(this,
+				APP_AUTHORITY){
+			@Override
+			public CachedImage getCachedImage(String url) {
+				// TODO Auto-generated method stub
+				return super.getCachedImage(url);
+			}
+		};
+
+		final ImagesManagerContext<CachedImage> result = new ImagesManagerContext<CachedImage>();
+		result.setDownloader(downloader);
+		result.setImagesManager(imagesManager);
+		result.setImagesDAO(imagesDAO);
+		result.setMemCache(MemCacheMode.STATIC);
+		return result;
+
+	}
 
 	@Override
 	public void onCreate() {
@@ -70,10 +100,10 @@ public class shAirCardApp extends Application {
 				return OneClassModelParserContext
 						.create(new TypeToken<Event>() {
 						});
-//			case POST_VCARD:
-//				return OneClassModelParserContext
-//						.create(new TypeToken<Event>() {
-//						});
+				// case POST_VCARD:
+				// return OneClassModelParserContext
+				// .create(new TypeToken<Event>() {
+				// });
 			case REFRESH_EVENTS:
 				return OneClassModelParserContext
 						.create(new TypeToken<ArrayList<Event>>() {

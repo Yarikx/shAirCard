@@ -1,7 +1,6 @@
 package com.gtug.shaircard;
 
 import java.io.IOException;
-import java.io.Serializable;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -15,8 +14,6 @@ import android.widget.TextView;
 import com.gtug.shaircard.model.Event;
 import com.gtug.shaircard.model.VCard;
 import com.stanfy.app.activities.OneFragmentActivity;
-import com.stanfy.serverapi.response.ResponseData;
-import com.stanfy.utils.ApiMethodsSupport.ApiSupportRequestCallback;
 import com.stanfy.utils.Base64;
 
 public class EventVcardsActivity extends OneFragmentActivity<shAirCardApp> {

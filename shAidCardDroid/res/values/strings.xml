@@ -16,5 +16,7 @@
     <string name="add_vcard">add VCard</string>
     <string name="phone">Phone</string>
     <string name="main_question">Currently at this event?</string>
+    <string name="add_contact">Add contact?</string>
+    <string name="add_contact_to_book">Add contact to your contact book?</string>
 
 </resources>

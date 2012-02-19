@@ -1,15 +1,18 @@
 package com.gtug.shaircard;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gtug.shaircard.model.Event;
 import com.gtug.shaircard.model.VCard;
@@ -119,11 +122,45 @@ public class VCardListFragment extends
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View arg1,
 					int position, long arg3) {
-				VCard vcard = (VCard) adapter.getItemAtPosition(position);
-				AddContact.addContact(getOwnerActivity(), vcard.getFirstName()
-						+ " " + vcard.getSurname(), vcard.getPhone(), vcard
-						.getEmail(), vcard.getCompany());
-				Toast.makeText(getOwnerActivity(), "Contact was added", Toast.LENGTH_SHORT).show();
+				final VCard vcard = (VCard) adapter.getItemAtPosition(position);
+
+				AlertDialog.Builder builder = new AlertDialog.Builder(
+						getOwnerActivity());
+				builder.setTitle(R.string.add_contact);
+				builder.setMessage(R.string.add_contact_to_book);
+
+				builder.setPositiveButton(android.R.string.yes,
+						new OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								AddContact.addContact(
+										getOwnerActivity(),
+										vcard.getFirstName() + " "
+												+ vcard.getSurname(),
+										vcard.getPhone(), vcard.getEmail(),
+										vcard.getCompany());
+								Toast.makeText(getOwnerActivity(),
+										"Contact was added", Toast.LENGTH_SHORT)
+										.show();
+								dialog.dismiss();
+							}
+						});
+
+				builder.setNegativeButton(android.R.string.no,
+						new OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+
+								dialog.dismiss();
+							}
+						});
+
+				builder.create().show();
+
 			}
 		});
 	}
