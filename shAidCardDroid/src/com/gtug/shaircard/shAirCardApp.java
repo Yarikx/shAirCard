@@ -7,6 +7,7 @@ import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
 import java.util.ArrayList;
 
+import android.location.LocationManager;
 import android.telephony.TelephonyManager;
 
 import com.google.gson.reflect.TypeToken;
@@ -36,6 +37,7 @@ public class shAirCardApp extends Application {
 
 	public String deviceId;
 	public TelephonyManager manager;
+	public LocationManager locationManager;
 
 	@Override
 	protected ImagesManagerContext<?> createImagesContext() {
@@ -66,6 +68,7 @@ public class shAirCardApp extends Application {
 		super.onCreate();
 		setImagesDAOAuthority(APP_AUTHORITY);
 		manager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+		locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 		deviceId = manager.getDeviceId();
 	}
 

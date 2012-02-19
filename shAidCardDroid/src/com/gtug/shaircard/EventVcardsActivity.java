@@ -1,6 +1,7 @@
 package com.gtug.shaircard;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import com.gtug.shaircard.model.Event;
 import com.gtug.shaircard.model.VCard;
 import com.stanfy.app.activities.OneFragmentActivity;
+import com.stanfy.serverapi.response.ResponseData;
+import com.stanfy.utils.ApiMethodsSupport.ApiSupportRequestCallback;
 import com.stanfy.utils.Base64;
 
 public class EventVcardsActivity extends OneFragmentActivity<shAirCardApp> {
@@ -59,27 +62,27 @@ public class EventVcardsActivity extends OneFragmentActivity<shAirCardApp> {
 		name.setText(event.getName());
 		location.setText(event.getAddress());
 
-//		addRequestCallback(new ApiSupportRequestCallback<Serializable>() {
-//
-//			@Override
-//			public boolean filterOperation(int token, int o) {
-//				if (o == OurOperation.POST_VCARD.getCode()
-//
-//				|| o == OurOperation.GET_ALL_VCARDS_BY_EVENTID.getCode()) {
-//					return true;
-//				} else {
-//					return false;
-//				}
-//			}
-//
-//			@Override
-//			protected void processSuccess(int token, int operation,
-//					ResponseData responseData, Serializable model) {
-//				if (operation == OurOperation.POST_VCARD.getCode()) {
-//					fragment.reload();
-//				}
-//			}
-//		});
+		addRequestCallback(new ApiSupportRequestCallback<Serializable>() {
+
+			@Override
+			public boolean filterOperation(int token, int o) {
+				if (o == OurOperation.POST_VCARD.getCode()
+
+				|| o == OurOperation.GET_ALL_VCARDS_BY_EVENTID.getCode()) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+
+			@Override
+			protected void processSuccess(int token, int operation,
+					ResponseData responseData, Serializable model) {
+				if (operation == OurOperation.POST_VCARD.getCode()) {
+					fragment.reload();
+				}
+			}
+		});
 
 	}
 

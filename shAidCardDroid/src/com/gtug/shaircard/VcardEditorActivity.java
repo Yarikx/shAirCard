@@ -52,7 +52,9 @@ public class VcardEditorActivity extends Activity {
 			card = (VCard) getIntent().getExtras().get("vcard");
 			pos = getIntent().getExtras().getInt("pos");
 
-			imageUri = Uri.parse(card.localUri);
+			if (card.localUri != null) {
+				imageUri = Uri.parse(card.localUri);
+			}
 			photo.setImageURI(imageUri);
 			name.setText(card.getFirstName());
 			surname.setText(card.getSurname());

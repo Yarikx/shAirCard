@@ -9,6 +9,8 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -62,21 +64,22 @@ public class EventEditorActivity extends
 			updateTimeButtons();
 		}
 	};
-	
-//	final TimePickerDialog.OnTimeSetListener startTimeListener = new OnTimeSetListener() {
-//		
-//		@Override
-//		public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-//			GregorianCalendar date = new GregorianCalendar(event.getTimeBegin());
-//			date.set(Calendar.YEAR, year);
-//			date.set(Calendar.MONTH, monthOfYear);
-//			date.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-//			event.setTimeBegin(date.getTime());
-//			updateTimeButtons();
-//			// TODO Auto-generated method stub
-//			
-//		}
-//	};
+
+	// final TimePickerDialog.OnTimeSetListener startTimeListener = new
+	// OnTimeSetListener() {
+	//
+	// @Override
+	// public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+	// GregorianCalendar date = new GregorianCalendar(event.getTimeBegin());
+	// date.set(Calendar.YEAR, year);
+	// date.set(Calendar.MONTH, monthOfYear);
+	// date.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+	// event.setTimeBegin(date.getTime());
+	// updateTimeButtons();
+	// // TODO Auto-generated method stub
+	//
+	// }
+	// };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -112,9 +115,9 @@ public class EventEditorActivity extends
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
 		case START_DATE_DIALOG:
-			return new DatePickerDialog(this, startDateListener, 
-					event.getTimeBegin().getYear() - 1970, event.getTimeBegin().getMonth() - 1,
-					event.getTimeBegin().getDay() - 1);
+			return new DatePickerDialog(this, startDateListener, event
+					.getTimeBegin().getYear() - 1970, event.getTimeBegin()
+					.getMonth() - 1, event.getTimeBegin().getDay() - 1);
 		}
 		return null;
 
@@ -135,6 +138,19 @@ public class EventEditorActivity extends
 		event.setPassword(password.getText().toString());
 
 		event.setCreatorId(getApp().deviceId);
+		Location location1 = getApp().locationManager
+				.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+		Location location2 = getApp().locationManager
+				.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+		if (location1 != null) {
+			if (location2 != null
+					&& location2.getAccuracy() < location1.getAccuracy()) {
+				location1 = location2;
+			}
+
+			event.setLongitude(location1.getLongitude());
+			event.setLatitude(location1.getLatitude());
+		}
 
 		fetch();
 		// TODO add to favorites
