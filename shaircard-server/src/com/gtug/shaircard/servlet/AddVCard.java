@@ -33,7 +33,7 @@ public class AddVCard extends HttpServlet {
 		String paramName = (String)req.getParameterNames().nextElement();
 		String body = req.getParameterValues(paramName)[0];
 
-		Gson gson = new Gson();
+		Gson gson = Util.conjureGson();
 
 		VCard e = gson.fromJson(body, VCard.class);
 

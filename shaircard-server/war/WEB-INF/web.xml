@@ -40,6 +40,10 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>GetVCardImage</servlet-name>
 		<servlet-class>com.gtug.shaircard.servlet.GetVCardImage</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>RefreshEvents</servlet-name>
+		<servlet-class>com.gtug.shaircard.servlet.RefreshEvents</servlet-class>
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>GetAllEvents</servlet-name>
 		<url-pattern>/get_all_events</url-pattern>
@@ -75,6 +79,10 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	<servlet-mapping>
 		<servlet-name>GetVCardImage</servlet-name>
 		<url-pattern>/get_vcard_image</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>RefreshEvents</servlet-name>
+		<url-pattern>/refresh_events</url-pattern>
 	</servlet-mapping>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

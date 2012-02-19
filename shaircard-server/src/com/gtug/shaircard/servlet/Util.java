@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.gtug.shaircard.model.Event;
 import com.gtug.shaircard.model.Jsonable;
 import com.gtug.shaircard.model.VCard;
@@ -36,5 +37,9 @@ public class Util {
 			e.printStackTrace();
 			throw new RuntimeException("All fucked up");
 		}
+	}
+	
+	public static Gson conjureGson() {
+		return new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss Z").create();
 	}
 }

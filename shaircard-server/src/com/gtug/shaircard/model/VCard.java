@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.gtug.shaircard.servlet.Util;
 
 @Entity
 public class VCard extends Jsonable {
@@ -117,8 +118,7 @@ public class VCard extends Jsonable {
 	}
 
 	public static String listToJson(List<VCard> l) {
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss Z")
-				.create();
+		Gson gson = Util.conjureGson();
 		return gson.toJson(l);
 	}
 

@@ -23,7 +23,7 @@ public class UpdateEvent extends HttpServlet {
 		String paramName = (String)req.getParameterNames().nextElement();
 		String body = req.getParameterValues(paramName)[0];
 
-		Gson gson = new Gson();
+		Gson gson = Util.conjureGson();
 		Event e = gson.fromJson(body, Event.class);
 		
 		EntityManager em = EMFService.get().createEntityManager();
