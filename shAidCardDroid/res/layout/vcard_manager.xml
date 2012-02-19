@@ -15,8 +15,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:onClick="addVcard"
-            android:text="add" />
+            android:background="@android:drawable/ic_menu_add"
+            android:onClick="addVcard" />
     </LinearLayout>
 
     <ListView

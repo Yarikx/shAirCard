@@ -9,6 +9,7 @@
         android:layout_height="60dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/main_margin"
         android:src="@drawable/ic_launcher" />
 
     <TextView
@@ -17,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/main_margin"
         android:layout_toRightOf="@+id/photo"
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge" />
@@ -37,6 +39,8 @@
         android:layout_alignBottom="@+id/photo"
         android:layout_alignLeft="@+id/company"
         android:layout_alignParentRight="true"
-        android:text="TextView" />
+        android:text="TextView"
+        android:visibility="invisible" >
+    </TextView>
 
 </RelativeLayout>

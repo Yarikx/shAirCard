@@ -13,15 +13,15 @@
             android:id="@+id/searchEvent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="searchEvents"
-            android:text="Button" />
+            android:background="@android:drawable/ic_search_category_default"
+            android:onClick="searchEvents" />
 
         <Button
             android:id="@+id/vcardManager"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="openManager"
-            android:text="VCardManager" />
+            android:background="@android:drawable/ic_menu_my_calendar"
+            android:onClick="openManager" />
 
         <View
             android:id="@+id/view1"
@@ -33,15 +33,15 @@
             android:id="@+id/updateButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="update"
-            android:text="@string/update" />
+            android:background="@android:drawable/ic_menu_rotate"
+            android:onClick="update" />
 
         <Button
             android:id="@+id/addEvent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="addEvent"
-            android:text="addEvent" />
+            android:background="@android:drawable/ic_menu_add" />
     </LinearLayout>
 
     <com.stanfy.views.list.ListView

@@ -70,6 +70,10 @@ public class shAirCardApp extends Application {
 				return OneClassModelParserContext
 						.create(new TypeToken<Event>() {
 						});
+//			case POST_VCARD:
+//				return OneClassModelParserContext
+//						.create(new TypeToken<Event>() {
+//						});
 			case REFRESH_EVENTS:
 				return OneClassModelParserContext
 						.create(new TypeToken<ArrayList<Event>>() {
