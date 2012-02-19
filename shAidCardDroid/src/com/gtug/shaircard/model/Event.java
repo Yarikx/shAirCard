@@ -12,7 +12,7 @@ public class Event implements UniqueObject, Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4990867064309892633L;
+	private static final long serialVersionUID = -8908193953924127846L;
 	private Long id;
 	private Double latitude;
 	private Double longitude;
@@ -23,6 +23,16 @@ public class Event implements UniqueObject, Serializable {
 	private String description;
 	private String creatorId;
 	private String password;
+	private Boolean usePassword = true;
+
+	public Boolean getUsePassword() {
+		return usePassword;
+	}
+
+	public void setUsePassword(Boolean usePassword) {
+		this.usePassword = usePassword;
+	}
+
 	private Long peopleCount = (long) 0;
 
 	public Long getPeopleCount() {
@@ -137,5 +147,6 @@ public class Event implements UniqueObject, Serializable {
 		to.description = from.description;
 		to.creatorId = from.creatorId;
 		to.password = from.password;
+		to.usePassword = (to.password == null || to.password.equals(""));
 	}
 }

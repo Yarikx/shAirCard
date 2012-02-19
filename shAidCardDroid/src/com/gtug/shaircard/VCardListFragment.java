@@ -1,9 +1,5 @@
 package com.gtug.shaircard;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.StreamCorruptedException;
-
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -68,7 +64,7 @@ public class VCardListFragment extends
 				// TODO get image uri
 				h.imageView
 						.setImageURI(Uri
-								.parse("http://forum.lineagec1.com/style_emoticons/default/trollface.png"));
+								.parse("http://shaircard.appspot.com/get_vcard_image?vcardId="+element.getId()));
 
 			}
 
@@ -102,7 +98,7 @@ public class VCardListFragment extends
 	@Override
 	public void onActivityCreated(final Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		setRequestBuilder(new EventsRequestBuilder(getOwnerActivity()));
+		setRequestBuilder(new VcardRequestBuilder(getOwnerActivity(),eventId));
 
 		getListView().setOnItemClickListener(new OnItemClickListener() {
 

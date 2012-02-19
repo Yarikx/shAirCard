@@ -10,9 +10,9 @@ import com.stanfy.serverapi.request.Operation;
  */
 public class VcardRequestBuilder extends ListRequestBuilder {
 
-	public VcardRequestBuilder(final Context context, Integer id) {
+	public VcardRequestBuilder(final Context context, Long id) {
 		super(context);
-		
+
 		addSimpleParameter("eventId", id.toString());
 	}
 

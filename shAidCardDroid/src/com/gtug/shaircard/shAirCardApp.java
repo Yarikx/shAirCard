@@ -11,6 +11,7 @@ import android.telephony.TelephonyManager;
 
 import com.google.gson.reflect.TypeToken;
 import com.gtug.shaircard.model.Event;
+import com.gtug.shaircard.model.VCard;
 import com.stanfy.app.Application;
 import com.stanfy.serverapi.RequestMethodHelper;
 import com.stanfy.serverapi.request.RequestDescription;
@@ -54,9 +55,12 @@ public class shAirCardApp extends Application {
 				final RequestDescription requestDescription) {
 			switch (OurOperation.byCode(requestDescription.getOperationCode())) {
 			case GET_FILTERED_EVENTS:
-			case GET_ALL_VCARDS_BY_EVENTID:
 				return OneClassModelParserContext
 						.create(new TypeToken<ArrayList<Event>>() {
+						});
+			case GET_ALL_VCARDS_BY_EVENTID:
+				return OneClassModelParserContext
+						.create(new TypeToken<ArrayList<VCard>>() {
 						});
 			default:
 				return super.createParserContext(requestDescription);
