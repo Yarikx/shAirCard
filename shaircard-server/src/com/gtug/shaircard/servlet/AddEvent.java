@@ -24,6 +24,8 @@ public class AddEvent extends HttpServlet {
 		Event e = gson.fromJson(body, Event.class);
 		if (e.getPassword() != null) {
 			e.setUsePassword(true);
+		} else {
+			e.setUsePassword(false);
 		}
 		
 		EntityManager em = EMFService.get().createEntityManager();

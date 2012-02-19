@@ -47,12 +47,19 @@ public class GetVCardImage extends HttpServlet {
 			return;
 		}
 		
-		resp.setContentType("image/jpeg");
-		OutputStream osw = resp.getOutputStream();
-		
 		Query qGetImage = em.createQuery("SELECT i FROM VCardImage i WHERE i.vcardId = :id");
 		qGetImage.setParameter("id", card.getId());
 		VCardImage vci = (VCardImage)qGetImage.getSingleResult();
+		
+		if (vci.getImage() == null) {
+			return;
+		}
+		
+		resp.setContentType("image/jpeg");
+		
+		OutputStream osw = resp.getOutputStream();
+		
+		
 		
 		osw.write(vci.getImage().getBytes());
 	}
