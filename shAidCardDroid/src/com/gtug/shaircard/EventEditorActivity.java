@@ -105,9 +105,9 @@ public class EventEditorActivity extends
 	public void updateTimeButtons() {
 		startDate
 				.setText(DateFormat.format("dd.MM.yyyy", event.getTimeBegin()));
-		startTime.setText(DateFormat.format("hh:mm:SS", event.getTimeBegin()));
+		startTime.setText(DateFormat.format("hh:mm", event.getTimeBegin()));
 		endDate.setText(DateFormat.format("dd.MM.yyyy", event.getTimeEnd()));
-		endTime.setText(DateFormat.format("hh:mm:SS", event.getTimeEnd()));
+		endTime.setText(DateFormat.format("hh:mm", event.getTimeEnd()));
 	}
 
 	public void save(View view) {

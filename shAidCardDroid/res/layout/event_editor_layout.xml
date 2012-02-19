@@ -45,13 +45,26 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start time" />
+        android:text="Begins at" />
 
-    <Button
-        android:id="@+id/startTime"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Start Time" />
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/startDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start date" />
+
+        <Button
+            android:id="@+id/startTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start time" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textView4"
@@ -59,11 +72,24 @@
         android:layout_height="wrap_content"
         android:text="End time" />
 
-    <Button
-        android:id="@+id/endTime"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="End Time" />
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/endDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="End date" />
+
+        <Button
+            android:id="@+id/endTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="End time" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/textView5"
