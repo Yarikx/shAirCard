@@ -19,6 +19,7 @@ public class GetAllVCardsByEventId extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		resp.setCharacterEncoding("UTF-8");
 		EntityManager em = EMFService.get().createEntityManager();
 		String eventIdStr = req.getParameter("eventId");
 		String password = req.getParameter("password");

@@ -18,8 +18,11 @@ public class UpdateEvent extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		resp.setCharacterEncoding("UTF-8");
 		resp.setContentType("text/json");
-		String body = Util.getPostBody(req);
+		String paramName = (String)req.getParameterNames().nextElement();
+		String body = req.getParameterValues(paramName)[0];
+
 		Gson gson = new Gson();
 		Event e = gson.fromJson(body, Event.class);
 		

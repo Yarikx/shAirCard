@@ -29,6 +29,7 @@ public class AddVCard extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		resp.setContentType("text/json");
+		resp.setCharacterEncoding("UTF-8");
 		String paramName = (String)req.getParameterNames().nextElement();
 		String body = req.getParameterValues(paramName)[0];
 
