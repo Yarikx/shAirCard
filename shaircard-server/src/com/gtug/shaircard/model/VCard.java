@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 
 @Entity
@@ -20,7 +21,7 @@ public class VCard extends Jsonable {
 	private String surname;
 	private String company;
 	private String position;
-	private String base64Image;
+	private Text base64Image;
 	private Long eventId;
 	
 	public Long getId() {
@@ -71,11 +72,11 @@ public class VCard extends Jsonable {
 		this.position = position;
 	}
 
-	public String getBase64Image() {
+	public Text getBase64Image() {
 		return base64Image;
 	}
 
-	public void setBase64Image(String base64Image) {
+	public void setBase64Image(Text base64Image) {
 		this.base64Image = base64Image;
 	}
 

@@ -42,7 +42,7 @@ public class GetAllVCardsByEventId extends HttpServlet {
 		List<VCard> cList = q.getResultList();
 		
 		for (VCard vCard : cList) {
-			vCard.setBase64Image("");
+			vCard.setBase64Image(null);
 		}
 		
 		resp.getWriter().println(VCard.listToJson(cList));
