@@ -6,6 +6,7 @@ import java.io.StreamCorruptedException;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -52,6 +53,16 @@ public class ShAirCardDroidActivity extends Activity {
 	protected void onResume() {
 		super.onResume();
 		update(null);
+		
+		// Get last known location
+		Location loc = GPSLocation.getLastKnown(this);
+		if (loc != null) {
+			//TODO PUT THE REQUEST HERE
+			Event closestEvent = new Event();
+			if (closestEvent.getId() != -1) {
+				//TODO CALL DIALOG HERE
+			}
+		}
 
 	}
 
@@ -65,16 +76,12 @@ public class ShAirCardDroidActivity extends Activity {
 			listView.setAdapter(adapter);
 
 		} catch (StreamCorruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
