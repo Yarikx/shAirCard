@@ -14,5 +14,7 @@
     <string name="company">Company</string>
     <string name="save">Save</string>
     <string name="add_vcard">add VCard</string>
+    <string name="phone">Phone</string>
+    <string name="main_question">Currently at this event?</string>
 
 </resources>

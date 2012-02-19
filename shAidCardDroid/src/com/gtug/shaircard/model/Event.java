@@ -29,6 +29,15 @@ public class Event implements UniqueObject, Serializable {
 		return usePassword;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof Event) {
+			return ((Event) o).getId() == this.getId();
+		} else {
+			return super.equals(o);
+		}
+	}
+
 	public void setUsePassword(Boolean usePassword) {
 		this.usePassword = usePassword;
 	}

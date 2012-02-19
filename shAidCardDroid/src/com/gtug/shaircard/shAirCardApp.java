@@ -66,6 +66,7 @@ public class shAirCardApp extends Application {
 						.create(new TypeToken<ArrayList<VCard>>() {
 						});
 			case POST_EVENT:
+			case GET_CLOSEST_EVENT:
 				return OneClassModelParserContext
 						.create(new TypeToken<Event>() {
 						});
@@ -84,40 +85,69 @@ public class shAirCardApp extends Application {
 
 	}
 
-	public void addFavorite(Event event) throws StreamCorruptedException,
-			IOException, ClassNotFoundException {
+	public void addFavorite(Event event) {
 		ArrayList<Event> favorites;
 		try {
 			favorites = getFavorites();
+			favorites.add(event);
+			setFavorites(favorites);
 		} catch (FileNotFoundException e) {
 			favorites = new ArrayList<Event>();
 		}
-		favorites.add(event);
-		setFavorites(favorites);
+
 	}
 
-	public void removeFavorite(Event event) throws StreamCorruptedException,
-			FileNotFoundException, IOException, ClassNotFoundException {
+	public void removeFavorite(Event event) {
 		ArrayList<Event> favorites = getFavorites();
 		favorites.remove(event);
-		setFavorites(favorites);
+		try {
+			setFavorites(favorites);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
-	public ArrayList<Event> getFavorites() throws StreamCorruptedException,
-			FileNotFoundException, IOException, ClassNotFoundException {
-		ObjectInputStream ois = new ObjectInputStream(
-				openFileInput(FAVORITES_FILENAME));
-		ArrayList<Event> events = (ArrayList<Event>) ois.readObject();
-		ois.close();
-		return events;
+	public ArrayList<Event> getFavorites() {
+		ObjectInputStream ois;
+		try {
+			ois = new ObjectInputStream(openFileInput(FAVORITES_FILENAME));
+			ArrayList<Event> events = (ArrayList<Event>) ois.readObject();
+			ois.close();
+			return events;
+		} catch (StreamCorruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return new ArrayList<Event>();
+
 	}
 
 	public void setFavorites(ArrayList<Event> events)
-			throws FileNotFoundException, IOException {
-		ObjectOutputStream oos = new ObjectOutputStream(openFileOutput(
-				FAVORITES_FILENAME, MODE_PRIVATE));
-		oos.writeObject(events);
-		oos.close();
+			throws FileNotFoundException {
+		ObjectOutputStream oos;
+		try {
+			oos = new ObjectOutputStream(openFileOutput(FAVORITES_FILENAME,
+					MODE_PRIVATE));
+			oos.writeObject(events);
+			oos.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 
 	public ArrayList<VCard> getMyVcards() {
