@@ -1,14 +1,16 @@
 package com.gtug.shaircard;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 
 import com.gtug.shaircard.model.VCard;
@@ -59,12 +61,35 @@ public class VCardManagerActivity extends Activity {
 				} else {
 					Intent intent = new Intent(VCardManagerActivity.this,
 							VcardEditorActivity.class);
+
+					intent.putExtra("vcard", vCard);
+					intent.putExtra("pos", position);
+					startActivity(intent);
 				}
 
 			}
 
 		});
 
+		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> adapter, View view,
+					int position, long arg3) {
+				vcards.remove(position);
+				try {
+					app.setMyVcards(vcards);
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				update(vcards);
+				return true;
+			}
+		});
 	}
 
 	public void addVcard(View view) {
