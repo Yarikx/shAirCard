@@ -71,6 +71,8 @@ public class VCardListFragment extends
 											+ element.getId()));
 				} else if (element.localUri != null) {
 					h.imageView.setImageURI(Uri.parse(element.localUri));
+				} else {
+					h.imageView.setImageDrawable(null);
 				}
 
 			}
@@ -99,6 +101,7 @@ public class VCardListFragment extends
 	@Override
 	public Fetcher<VCard> createAdapter(final Context context,
 			final ElementRenderer<VCard> renderer) {
+		
 		return new PageFetcher<VCard>(context, renderer, getRequestToken());
 	}
 

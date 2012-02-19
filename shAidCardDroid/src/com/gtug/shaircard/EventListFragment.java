@@ -2,6 +2,7 @@ package com.gtug.shaircard;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.StreamCorruptedException;
 
 import android.content.Context;
@@ -16,6 +17,12 @@ import android.widget.TextView;
 import com.gtug.shaircard.model.Event;
 import com.stanfy.app.fragments.list.FetchingListFragment;
 import com.stanfy.images.ImagesManagerContext;
+import com.stanfy.serverapi.request.Operation;
+import com.stanfy.serverapi.request.ParameterValue;
+import com.stanfy.serverapi.request.RequestBuilder;
+import com.stanfy.serverapi.response.ResponseData;
+import com.stanfy.serverapi.response.json.GsonBasedResponseHandler;
+import com.stanfy.utils.ApiMethodsSupport.ApiSupportRequestCallback;
 import com.stanfy.views.list.Fetcher;
 import com.stanfy.views.list.ModelListAdapter.ElementRenderer;
 import com.stanfy.views.list.PageFetcher;
@@ -38,6 +45,7 @@ public class EventListFragment extends
 		// }
 		// });
 
+
 	}
 
 	public static class EventHolder {
@@ -57,8 +65,9 @@ public class EventListFragment extends
 				h.name.setText(element.getName());
 				h.location.setText(element.getAddress());
 				h.memberCount.setText("" + element.getPeopleCount());
-				h.admin.setVisibility(app.deviceId.equals(element
-						.getCreatorId()) ? View.VISIBLE : View.INVISIBLE);
+				// h.admin.setVisibility(app.deviceId.equals(element
+				// .getCreatorId()) ? View.VISIBLE : View.INVISIBLE);
+				h.admin.setVisibility(View.INVISIBLE);
 
 			}
 

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.StreamCorruptedException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import android.telephony.TelephonyManager;
@@ -64,10 +65,18 @@ public class shAirCardApp extends Application {
 				return OneClassModelParserContext
 						.create(new TypeToken<ArrayList<VCard>>() {
 						});
-//			case POST_VCARD:
-//				return OneClassModelParserContext
-//						.create(new TypeToken<ArrayList<VCard>>() {
-//						});
+			case POST_EVENT:
+				return OneClassModelParserContext
+						.create(new TypeToken<Event>() {
+						});
+			case REFRESH_EVENTS:
+				return OneClassModelParserContext
+						.create(new TypeToken<ArrayList<Event>>() {
+						});
+				// case POST_VCARD:
+				// return OneClassModelParserContext
+				// .create(new TypeToken<ArrayList<VCard>>() {
+				// });
 			default:
 				return super.createParserContext(requestDescription);
 			}

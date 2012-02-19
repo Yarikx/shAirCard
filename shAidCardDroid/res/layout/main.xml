@@ -40,6 +40,7 @@
             android:id="@+id/addEvent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="addEvent"
             android:text="addEvent" />
     </LinearLayout>
 

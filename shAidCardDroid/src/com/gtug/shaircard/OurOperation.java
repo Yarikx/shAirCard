@@ -13,7 +13,9 @@ public enum OurOperation implements Operation {
   GET_ALL_EVENTS(SIMPLE_GET, "http://shaircard.appspot.com/get_all_events"),
   GET_FILTERED_EVENTS(SIMPLE_GET, "http://shaircard.appspot.com/get_filtered_events"),
   GET_ALL_VCARDS_BY_EVENTID(SIMPLE_GET, "http://shaircard.appspot.com/get_all_vcards_by_eventid"),
-  POST_VCARD(SIMPLE_POST, "http://shaircard.appspot.com/add_vcard");
+  POST_VCARD(SIMPLE_POST, "http://shaircard.appspot.com/add_vcard"),
+  POST_EVENT(SIMPLE_POST, "http://shaircard.appspot.com/add_event"),
+  REFRESH_EVENTS(SIMPLE_POST, "http://shaircard.appspot.com/refresh_events"),;
 
   /** Type */
   private final int type;

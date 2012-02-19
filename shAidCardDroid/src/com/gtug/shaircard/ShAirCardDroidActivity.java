@@ -3,24 +3,64 @@ package com.gtug.shaircard;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.StreamCorruptedException;
+import java.util.ArrayList;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.gtug.shaircard.model.Event;
+import com.stanfy.app.activities.OneRequestModelActivity;
+import com.stanfy.serverapi.request.Operation;
+import com.stanfy.serverapi.request.ParameterValue;
+import com.stanfy.serverapi.request.RequestBuilder;
+import com.stanfy.serverapi.response.json.GsonBasedResponseHandler;
 import com.stanfy.views.list.ListView;
 import com.stanfy.views.list.ModelListAdapter;
 
-public class ShAirCardDroidActivity extends Activity {
+class UpdateRequestBuilder extends RequestBuilder {
+
+	public UpdateRequestBuilder(ShAirCardDroidActivity context) {
+		super(context);
+		ParameterValue value = new ParameterValue();
+		value.setName("value");
+		try {
+			value.setValue(GsonBasedResponseHandler.GBUILDER.create().toJson(
+					context.getApp().getFavorites()));
+		} catch (StreamCorruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public Operation getOperation() {
+		// TODO Auto-generated method stub
+		return OurOperation.REFRESH_EVENTS;
+	}
+
+}
+
+public class ShAirCardDroidActivity
+		extends
+		OneRequestModelActivity<shAirCardApp, UpdateRequestBuilder, ArrayList<Event>> {
 
 	ListView listView;
 
 	shAirCardApp app;
+
+	private ModelListAdapter<Event> adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,30 +87,32 @@ public class ShAirCardDroidActivity extends Activity {
 			}
 		});
 
+		adapter = new ModelListAdapter<Event>(this,
+				EventListFragment
+						.createRenderer((shAirCardApp) getApplication()));
+
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		update(null);
-		
-		// Get last known location
-		Location loc = GPSLocation.getLastKnown(this);
-		if (loc != null) {
-			//TODO PUT THE REQUEST HERE
-			Event closestEvent = new Event();
-			if (closestEvent.getId() != -1) {
-				//TODO CALL DIALOG HERE
-			}
-		}
+
+		fetch();
+
+		// // Get last known location
+		// Location loc = GPSLocation.getLastKnown(this);
+		// if (loc != null) {
+		// //TODO PUT THE REQUEST HERE
+		// Event closestEvent = new Event();
+		// if (closestEvent.getId() != -1) {
+		// //TODO CALL DIALOG HERE
+		// }
+		// }
 
 	}
 
 	public void update(View view) {
-		ModelListAdapter<Event> adapter = new ModelListAdapter<Event>(this,
-				EventListFragment
-						.createRenderer((shAirCardApp) getApplication()));
-
 		try {
 			adapter.replace(app.getFavorites());
 			listView.setAdapter(adapter);
@@ -90,8 +132,31 @@ public class ShAirCardDroidActivity extends Activity {
 		startActivity(new Intent(this, SearchEventsListActivity.class));
 	}
 
+	public void addEvent(View view) {
+		startActivity(new Intent(this, EventEditorActivity.class));
+	}
+
 	public void openManager(View view) {
 		startActivity(new Intent(this, VCardManagerActivity.class));
+	}
+
+	@Override
+	public UpdateRequestBuilder createRequestBuilder() {
+		// TODO Auto-generated method stub
+		return new UpdateRequestBuilder(this);
+	}
+
+	@Override
+	public Class<?> getModelClass() {
+		// TODO Auto-generated method stub
+		return ArrayList.class;
+	}
+
+	@Override
+	public boolean processModel(ArrayList<Event> data) {
+		// TODO Auto-generated method stub
+		adapter.replace(data);
+		return false;
 	}
 
 	// @Override
