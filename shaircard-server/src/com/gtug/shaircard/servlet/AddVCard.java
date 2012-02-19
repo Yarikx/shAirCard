@@ -1,6 +1,7 @@
 package com.gtug.shaircard.servlet;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -28,12 +29,13 @@ public class AddVCard extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		resp.setContentType("text/json");
-		String body = Util.getPostBody(req);
+		String paramName = (String)req.getParameterNames().nextElement();
+		String body = req.getParameterValues(paramName)[0];
+
 		Gson gson = new Gson();
-		final Logger log = Logger.getLogger(AddVCard.class.getName());
-		log.severe("Json body: " + body);
+
 		VCard e = gson.fromJson(body, VCard.class);
-		
+
 		EntityManager em = EMFService.get().createEntityManager();
 		EntityManager em2 = EMFService.get().createEntityManager();
 		Query getPossibleCard = em
@@ -70,6 +72,10 @@ public class AddVCard extends HttpServlet {
 		} else {
 			vci = new VCardImage();
 		}
+		
+		if (e.getId() == (long)-1) {
+			e.setId(null);
+		}
 
 		com.google.appengine.api.datastore.Text image = e.getBase64Image();
 
@@ -104,5 +110,4 @@ public class AddVCard extends HttpServlet {
 
 		resp.getWriter().println("SUCCESS");
 	}
-
 }
