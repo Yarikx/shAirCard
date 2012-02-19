@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/main_margin"
         android:text="Event Name"
         android:textSize="18dp" />
 
@@ -20,6 +21,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/name"
+        android:layout_marginBottom="@dimen/main_margin"
+        android:layout_marginLeft="@dimen/main_margin"
         android:text="location"
         android:textSize="10dp" />
 
@@ -29,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:text="@string/add_vcard" />
+        android:background="@android:drawable/ic_menu_add" />
 
     <TextView
         android:id="@+id/memersCount"

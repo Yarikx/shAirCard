@@ -50,6 +50,7 @@ public class VCardListFragment extends
 		LoadableImageView imageView;
 		TextView name;
 		TextView company;
+		TextView phone;
 	}
 
 	public static ElementRenderer<VCard> createRenderer(final shAirCardApp app) {
@@ -62,6 +63,7 @@ public class VCardListFragment extends
 				h.name.setText(element.getFirstName() + " "
 						+ element.getSurname());
 				h.company.setText(element.getCompany());
+				h.phone.setText(element.getPhone());
 				// TODO get image uri
 
 				if (element.getId() != -1) {
@@ -86,6 +88,7 @@ public class VCardListFragment extends
 				h.imageView.setImagesManagerContext(imagesManagerContext);
 				h.name = (TextView) view.findViewById(R.id.name);
 				h.company = (TextView) view.findViewById(R.id.company);
+				h.phone = (TextView) view.findViewById(R.id.phone);
 
 				return h;
 			}
