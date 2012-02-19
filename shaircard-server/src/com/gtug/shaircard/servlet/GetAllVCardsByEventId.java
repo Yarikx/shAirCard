@@ -22,7 +22,17 @@ public class GetAllVCardsByEventId extends HttpServlet {
 		EntityManager em = EMFService.get().createEntityManager();
 		String eventIdStr = req.getParameter("eventId");
 		String password = req.getParameter("password");
+		String pageStr = req.getParameter("page");
+		double lat = 0, lon = 0;
+		int page = 0, from = 0, to = 29;
 		long eventId;
+		if (pageStr != null) {
+			page = Integer.parseInt(pageStr);
+		}
+		if (page != 0) {
+			from = 30 + page * 10;
+			to = from + 9;
+		}
 		if (eventIdStr == null) {
 			resp.getWriter().println("FAILURE: No ivent ID");
 			return;
@@ -41,11 +51,10 @@ public class GetAllVCardsByEventId extends HttpServlet {
 		q.setParameter("eventid", eventId);
 		List<VCard> cList = q.getResultList();
 		
-		for (VCard vCard : cList) {
-			vCard.setBase64Image(null);
-		}
+		from = Math.min(from, cList.size());
+		to = Math.min(to, cList.size());
 		
-		resp.getWriter().println(VCard.listToJson(cList));
+		resp.getWriter().println(VCard.listToJson(cList.subList(from, to)));
 	}
 
 }
