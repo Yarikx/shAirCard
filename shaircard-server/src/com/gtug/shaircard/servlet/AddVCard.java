@@ -2,6 +2,7 @@ package com.gtug.shaircard.servlet;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -10,8 +11,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.mortbay.log.Log;
+
 import com.google.appengine.api.datastore.Blob;
 import com.google.appengine.api.datastore.Text;
+import com.google.appengine.tools.util.Logging;
 import com.google.gson.Gson;
 import com.gtug.shaircard.model.EMFService;
 import com.gtug.shaircard.model.Event;
@@ -26,8 +30,10 @@ public class AddVCard extends HttpServlet {
 		resp.setContentType("text/json");
 		String body = Util.getPostBody(req);
 		Gson gson = new Gson();
+		final Logger log = Logger.getLogger(AddVCard.class.getName());
+		log.severe("Json body: " + body);
 		VCard e = gson.fromJson(body, VCard.class);
-
+		
 		EntityManager em = EMFService.get().createEntityManager();
 		EntityManager em2 = EMFService.get().createEntityManager();
 		Query getPossibleCard = em
