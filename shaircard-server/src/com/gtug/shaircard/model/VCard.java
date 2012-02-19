@@ -22,9 +22,18 @@ public class VCard extends Jsonable {
 	private String surname;
 	private String company;
 	private String position;
+	private String creatorId;
 	private Text base64Image;
 	private Long eventId;
-	
+
+	public String getCreatorId() {
+		return creatorId;
+	}
+
+	public void setCreatorId(String creatorId) {
+		this.creatorId = creatorId;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -89,20 +98,12 @@ public class VCard extends Jsonable {
 		this.eventId = eventId;
 	}
 
-	public static VCard getSampleCard() {
-		VCard card = new VCard();
-		card.firstName = "Forrest";
-		card.surname = "Gump";
-		card.company = "Bubba Gump Co.";
-		card.eventId = (long)42;
-		return card;
-	}
-	
 	public static String listToJson(List<VCard> l) {
-		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss Z").create();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss Z")
+				.create();
 		return gson.toJson(l);
 	}
-	
+
 	public static void copyData(VCard from, VCard to) {
 		to.firstName = from.firstName;
 		to.middleName = from.middleName;
@@ -110,5 +111,6 @@ public class VCard extends Jsonable {
 		to.company = from.company;
 		to.position = from.position;
 		to.base64Image = from.base64Image;
+		to.creatorId = from.creatorId;
 	}
 }

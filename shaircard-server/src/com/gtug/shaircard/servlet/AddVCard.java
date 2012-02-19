@@ -1,8 +1,10 @@
 package com.gtug.shaircard.servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,20 +28,50 @@ public class AddVCard extends HttpServlet {
 		Gson gson = new Gson();
 		VCard e = gson.fromJson(body, VCard.class);
 
-		com.google.appengine.api.datastore.Text image = e.getBase64Image();
-		VCardImage vci = new VCardImage();
-
-		new org.apache.geronimo.mail.util.Base64();
-		vci.setImage(new Blob(org.apache.geronimo.mail.util.Base64
-				.decode(image.getValue())));
-
 		EntityManager em = EMFService.get().createEntityManager();
+		Query getPossibleCard = em.createQuery("SELECT c FROM VCard c WHERE c.creatorId = :creatorid");
+		getPossibleCard.setParameter("creatorId", e.getCreatorId());
+		
+		VCardImage vci;
+		
+		List<VCard> dbCard = getPossibleCard.getResultList();
+		if (!dbCard.isEmpty()) {
+			//Card already exists
+			VCard v = dbCard.get(0);
+			VCard.copyData(e, v);
+			e = v;
+			
+			Query getPossibleImage = em.createQuery("SELECT i FROM VCardImage i WHERE i.vcardId = :id");
+			getPossibleImage.setParameter("id", v.getId());
+			List<VCardImage> vciList = getPossibleImage.getResultList();
+			
+			if (!vciList.isEmpty()) {
+				vci = vciList.get(0);
+			} else {
+				vci = new VCardImage();
+			}
+			
+			//Try fetch VCardImage
+			 
+		} else {
+			vci = new VCardImage();
+		}
+		
+		com.google.appengine.api.datastore.Text image = e.getBase64Image();
+
+		if (image != null) {
+			new org.apache.geronimo.mail.util.Base64();
+			vci.setImage(new Blob(org.apache.geronimo.mail.util.Base64
+					.decode(image.getValue())));
+		} else {
+			vci.setImage(null);
+		}
+
+		em = EMFService.get().createEntityManager();
 		e.setBase64Image(null);
 		em.persist(e);
 		em.close();
-
-		System.out.println(e.toJson());
-
+		
 		em = EMFService.get().createEntityManager();
 		em.getTransaction().begin();
 		vci.setVcardId(e.getId());

@@ -150,6 +150,6 @@ public class Event extends Jsonable {
 		to.description = from.description;
 		to.creatorId = from.creatorId;
 		to.password = from.password;
-		to.usePassword = (to.password == null || to.password.equals(""));
+		to.usePassword = (to.password != null && !to.password.equals(""));
 	}
 }
