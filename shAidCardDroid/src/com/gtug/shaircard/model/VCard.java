@@ -3,8 +3,6 @@ package com.gtug.shaircard.model;
 import java.io.Serializable;
 import java.util.List;
 
-import android.net.Uri;
-
 import com.google.gson.Gson;
 import com.stanfy.content.UniqueObject;
 
@@ -31,6 +29,16 @@ public class VCard implements UniqueObject, Serializable {
 	private Text base64Image;
 	private Long eventId;
 	public String localUri;
+
+//	@Override
+//	public boolean equals(Object o) {
+//		if (o instanceof VCard) {
+//			return ((VCard) o).getId() == this.getId()&&
+//					((VCard) o).getFirstName().equals(object)
+//		} else {
+//			return super.equals(o);
+//		}
+//	}
 
 	public long getId() {
 		return id != null ? id : -1L;

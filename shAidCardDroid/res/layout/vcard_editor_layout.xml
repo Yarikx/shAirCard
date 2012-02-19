@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:text="@string/photo" />
 
-    <ImageView
+    <com.stanfy.views.LoadableImageView
         android:id="@+id/photo"
         android:layout_width="match_parent"
         android:layout_height="100dp"

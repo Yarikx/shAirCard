@@ -69,7 +69,7 @@ public class VCardListFragment extends
 							.setImageURI(Uri
 									.parse("http://shaircard.appspot.com/get_vcard_image?vcardId="
 											+ element.getId()));
-				} else {
+				} else if (element.localUri != null) {
 					h.imageView.setImageURI(Uri.parse(element.localUri));
 				}
 

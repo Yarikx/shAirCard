@@ -6,25 +6,28 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.gtug.shaircard.model.VCard;
-import com.stanfy.utils.Base64;
+import com.stanfy.views.LoadableImageView;
 
 public class VcardEditorActivity extends Activity {
 
 	private static final int IMAGE_PICK_CODE = 10;
-	ImageView photo;
+	LoadableImageView photo;
 	EditText name;
 	EditText company;
 
 	shAirCardApp app;
 
 	Uri imageUri = null;
+	Integer pos = null;
+	VCard card;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +38,31 @@ public class VcardEditorActivity extends Activity {
 
 		app = (shAirCardApp) getApplication();
 
-		photo = (ImageView) findViewById(R.id.photo);
+		photo = (LoadableImageView) findViewById(R.id.photo);
 		name = (EditText) findViewById(R.id.name);
 		company = (EditText) findViewById(R.id.company);
+
+		try {
+			card = (VCard) getIntent().getExtras().get("vcard");
+			pos = getIntent().getExtras().getInt("pos");
+
+			imageUri = Uri.parse(card.localUri);
+			photo.setImageURI(imageUri);
+			name.setText(card.getFirstName());
+			company.setText(card.getCompany());
+
+		} catch (NullPointerException e) {
+			card = new VCard();
+		}
 	}
 
 	public void save(View view) {
-		VCard vCard = new VCard();
+		VCard vCard = card;
+		ArrayList<VCard> list = app.getMyVcards();
+		if (pos != null) {
+			list.remove(pos.intValue());
+		}
+
 		if (imageUri != null) {
 			// try {
 			// vCard.setBase64Image(new VCard.Text(Base64
@@ -55,7 +76,6 @@ public class VcardEditorActivity extends Activity {
 		vCard.setFirstName(name.getText().toString());
 		vCard.setCompany(company.getText().toString());
 
-		ArrayList<VCard> list = app.getMyVcards();
 		list.add(vCard);
 		try {
 			app.setMyVcards(list);
@@ -76,6 +96,22 @@ public class VcardEditorActivity extends Activity {
 
 	}
 
+	public String getRealPathFromURI(Uri contentUri) {
+
+		// can post image
+		String[] proj = { MediaStore.Images.Media.DATA };
+		Cursor cursor = managedQuery(contentUri, proj, // Which columns to
+														// return
+				null, // WHERE clause; which rows to return (all rows)
+				null, // WHERE clause selection arguments (none)
+				null); // Order-by clause (ascending by name)
+		int column_index = cursor
+				.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+		cursor.moveToFirst();
+
+		return cursor.getString(column_index);
+	}
+
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// TODO Auto-generated method stub
@@ -83,8 +119,12 @@ public class VcardEditorActivity extends Activity {
 		switch (requestCode) {
 		case IMAGE_PICK_CODE:
 			if (resultCode == RESULT_OK) {
-				photo.setImageURI(data.getData());
-				imageUri = data.getData();
+				String path = getRealPathFromURI(data.getData());
+
+				Uri temp = Uri.parse(path);
+
+				photo.setImageURI(temp);
+				imageUri = temp;
 			}
 			break;
 
