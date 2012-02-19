@@ -1,5 +1,8 @@
 package com.gtug.shaircard;
 
+import java.io.IOException;
+import java.io.StreamCorruptedException;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -30,15 +33,14 @@ public class EventEditorActivity extends
 	public void save(View view) {
 		event = new Event();
 		event.setName(name.getText().toString());
-		event.setDescription(name.getText().toString());
-		event.setAddress(name.getText().toString());
-		event.setPassword(name.getText().toString());
+		event.setDescription(desc.getText().toString());
+		event.setAddress(location.getText().toString());
+		event.setPassword(password.getText().toString());
 
 		event.setCreatorId(getApp().deviceId);
 
 		fetch();
 		// TODO add to favorites
-		finish();
 
 	}
 
@@ -55,7 +57,21 @@ public class EventEditorActivity extends
 	@Override
 	public boolean processModel(Event data) {
 		Log.d("callback", "IM FUCKING LOVE COCAINE");
-		return false;
+		shAirCardApp app = getApp();
+		try {
+			app.addFavorite(data);
+		} catch (StreamCorruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finish();
+		return true;
 	}
 
 }

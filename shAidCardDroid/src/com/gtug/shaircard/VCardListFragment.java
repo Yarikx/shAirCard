@@ -101,6 +101,7 @@ public class VCardListFragment extends
 	@Override
 	public Fetcher<VCard> createAdapter(final Context context,
 			final ElementRenderer<VCard> renderer) {
+		
 		return new PageFetcher<VCard>(context, renderer, getRequestToken());
 	}
 

@@ -57,8 +57,9 @@ public class EventListFragment extends
 				h.name.setText(element.getName());
 				h.location.setText(element.getAddress());
 				h.memberCount.setText("" + element.getPeopleCount());
-				h.admin.setVisibility(app.deviceId.equals(element
-						.getCreatorId()) ? View.VISIBLE : View.INVISIBLE);
+				// h.admin.setVisibility(app.deviceId.equals(element
+				// .getCreatorId()) ? View.VISIBLE : View.INVISIBLE);
+				h.admin.setVisibility(View.INVISIBLE);
 
 			}
 
