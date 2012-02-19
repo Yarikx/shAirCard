@@ -29,34 +29,42 @@ public class AddVCard extends HttpServlet {
 		VCard e = gson.fromJson(body, VCard.class);
 
 		EntityManager em = EMFService.get().createEntityManager();
-		Query getPossibleCard = em.createQuery("SELECT c FROM VCard c WHERE c.creatorId = :creatorid");
-		getPossibleCard.setParameter("creatorId", e.getCreatorId());
-		
+		EntityManager em2 = EMFService.get().createEntityManager();
+		Query getPossibleCard = em
+				.createQuery("SELECT c FROM VCard c WHERE c.eventId = :eventid AND c.creatorId = :creatorid");
+		getPossibleCard.setParameter("eventid", e.getEventId());
+		getPossibleCard.setParameter("creatorid", e.getCreatorId());
+
 		VCardImage vci;
-		
+
+		boolean reuse = false;
+
 		List<VCard> dbCard = getPossibleCard.getResultList();
 		if (!dbCard.isEmpty()) {
-			//Card already exists
+			// Card already exists
+			reuse = true;
+
 			VCard v = dbCard.get(0);
 			VCard.copyData(e, v);
 			e = v;
-			
-			Query getPossibleImage = em.createQuery("SELECT i FROM VCardImage i WHERE i.vcardId = :id");
+
+			Query getPossibleImage = em2
+					.createQuery("SELECT i FROM VCardImage i WHERE i.vcardId = :id");
 			getPossibleImage.setParameter("id", v.getId());
 			List<VCardImage> vciList = getPossibleImage.getResultList();
-			
+
 			if (!vciList.isEmpty()) {
 				vci = vciList.get(0);
 			} else {
 				vci = new VCardImage();
 			}
-			
-			//Try fetch VCardImage
-			 
+
+			// Try fetch VCardImage
+
 		} else {
 			vci = new VCardImage();
 		}
-		
+
 		com.google.appengine.api.datastore.Text image = e.getBase64Image();
 
 		if (image != null) {
@@ -67,24 +75,26 @@ public class AddVCard extends HttpServlet {
 			vci.setImage(null);
 		}
 
-		em = EMFService.get().createEntityManager();
+		em.getTransaction().begin();
 		e.setBase64Image(null);
 		em.persist(e);
-		em.close();
-		
-		em = EMFService.get().createEntityManager();
-		em.getTransaction().begin();
-		vci.setVcardId(e.getId());
-		em.persist(vci);
 		em.getTransaction().commit();
 		em.close();
 
-		em = EMFService.get().createEntityManager();
-		em.getTransaction().begin();
-		Event event = em.find(Event.class, e.getEventId());
-		event.incPeopleCount();
-		em.getTransaction().commit();
-		em.close();
+		em2.getTransaction().begin();
+		vci.setVcardId(e.getId());
+		em2.persist(vci);
+		em2.getTransaction().commit();
+		em2.close();
+
+		if (!reuse) {
+			em = EMFService.get().createEntityManager();
+			em.getTransaction().begin();
+			Event event = em.find(Event.class, e.getEventId());
+			event.incPeopleCount();
+			em.getTransaction().commit();
+			em.close();
+		}
 
 		resp.getWriter().println("SUCCESS");
 	}
