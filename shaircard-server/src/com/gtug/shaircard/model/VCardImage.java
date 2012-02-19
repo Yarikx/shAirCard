@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.google.appengine.api.datastore.Blob;
+
 @Entity
 public class VCardImage {
 
@@ -12,7 +14,8 @@ public class VCardImage {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Long vcardId;
-	private String base64Image;
+	private Blob image;
+	
 	public Long getId() {
 		return id;
 	}
@@ -25,11 +28,11 @@ public class VCardImage {
 	public void setVcardId(Long vcardId) {
 		this.vcardId = vcardId;
 	}
-	public String getBase64Image() {
-		return base64Image;
+	public Blob getImage() {
+		return image;
 	}
-	public void setBase64Image(String base64Image) {
-		this.base64Image = base64Image;
+	public void setImage(Blob image) {
+		this.image = image;
 	}
 	
 }
