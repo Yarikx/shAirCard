@@ -31,10 +31,17 @@
             android:name=".SearchEventsListActivity"
             android:label="@string/search" >
         </activity>
-        
         <activity
             android:name=".EventVcardsActivity"
             android:label="@string/event" >
+        </activity>
+        <activity
+            android:name=".VCardManagerActivity"
+            android:label="@string/vcard" >
+        </activity>
+        <activity
+            android:name=".VcardEditorActivity"
+            android:label="@string/vcard" >
         </activity>
 
         <!-- Main application service. Deals with remote server API. -->

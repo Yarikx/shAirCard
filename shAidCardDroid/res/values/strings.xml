@@ -9,5 +9,8 @@
     <string name="address">Address</string>
     <string name="people_count">People count</string>
     <string name="event">Event</string>
+    <string name="vcard">VCard</string>
+    <string name="photo">Photo</string>
+    <string name="company">Company</string>
 
 </resources>

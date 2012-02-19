@@ -83,6 +83,10 @@ public class ShAirCardDroidActivity extends Activity {
 		startActivity(new Intent(this, SearchEventsListActivity.class));
 	}
 
+	public void openManager(View view) {
+		startActivity(new Intent(this, VCardManagerActivity.class));
+	}
+
 	// @Override
 	// protected Fragment createFragment(Bundle savedInstanceState) {
 	// // TODO Auto-generated method stub

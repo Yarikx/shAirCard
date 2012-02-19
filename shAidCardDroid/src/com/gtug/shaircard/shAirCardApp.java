@@ -25,6 +25,8 @@ public class shAirCardApp extends Application {
 
 	private static final String FAVORITES_FILENAME = "favorites.dat";
 
+	private static final String MY_VCARDS_FILENAME = "vcards.dat";
+
 	public String deviceId;
 	public TelephonyManager manager;
 
@@ -102,6 +104,30 @@ public class shAirCardApp extends Application {
 		ObjectOutputStream oos = new ObjectOutputStream(openFileOutput(
 				FAVORITES_FILENAME, MODE_PRIVATE));
 		oos.writeObject(events);
+		oos.close();
+	}
+
+	public ArrayList<VCard> getMyVcards() {
+		ObjectInputStream ois;
+		try {
+			ois = new ObjectInputStream(openFileInput(MY_VCARDS_FILENAME));
+			ArrayList<VCard> res = (ArrayList<VCard>) ois.readObject();
+			ois.close();
+			return res;
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ArrayList<VCard>();
+		}
+
+	}
+
+	public void setVcards(ArrayList<VCard> vcards)
+			throws FileNotFoundException, IOException {
+		ObjectOutputStream oos = new ObjectOutputStream(openFileOutput(
+				MY_VCARDS_FILENAME, MODE_PRIVATE));
+		oos.writeObject(vcards);
 		oos.close();
 	}
 }
