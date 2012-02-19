@@ -55,6 +55,9 @@ public class EventVcardsActivity extends OneFragmentActivity<shAirCardApp> {
 				startActivityForResult(intent, PICK_VCARD_CODE);
 			}
 		});
+		
+		name.setText(event.getName());
+		location.setText(event.getAddress());
 
 	}
 
