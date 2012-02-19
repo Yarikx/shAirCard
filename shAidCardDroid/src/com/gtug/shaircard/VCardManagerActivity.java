@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -67,7 +68,7 @@ public class VCardManagerActivity extends Activity {
 	}
 
 	public void addVcard(View view) {
-		// TODO
+		startActivity(new Intent(this, VcardEditorActivity.class));
 	}
 
 	@Override
@@ -87,6 +88,7 @@ public class VCardManagerActivity extends Activity {
 		ModelListAdapter<VCard> adapter = new ModelListAdapter<VCard>(this,
 				VCardListFragment.createRenderer(app));
 		adapter.replace(vcards);
+		listView.setAdapter(adapter);
 	}
 
 }

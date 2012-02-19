@@ -3,26 +3,37 @@ package com.gtug.shaircard.model;
 import java.io.Serializable;
 import java.util.List;
 
+import android.net.Uri;
+
 import com.google.gson.Gson;
 import com.stanfy.content.UniqueObject;
 
 public class VCard implements UniqueObject, Serializable {
 
+	public static class Text {
+		public Text(String t) {
+			value = t;
+		}
+
+		String value;
+	}
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 545331556042499694L;
-	private Long id;
+	private Long id = -1L;
 	private String firstName;
 	private String middleName;
 	private String surname;
 	private String company;
 	private String position;
-	private String base64Image;
+	private Text base64Image;
 	private Long eventId;
+	public String localUri;
 
 	public long getId() {
-		return id;
+		return id != null ? id : -1L;
 	}
 
 	public void setId(Long id) {
@@ -69,11 +80,11 @@ public class VCard implements UniqueObject, Serializable {
 		this.position = position;
 	}
 
-	public String getBase64Image() {
+	public Text getBase64Image() {
 		return base64Image;
 	}
 
-	public void setBase64Image(String base64Image) {
+	public void setBase64Image(Text base64Image) {
 		this.base64Image = base64Image;
 	}
 

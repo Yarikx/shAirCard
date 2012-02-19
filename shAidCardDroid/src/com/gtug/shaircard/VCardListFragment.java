@@ -21,7 +21,7 @@ import com.stanfy.views.list.PageFetcher;
 
 public class VCardListFragment extends
 		FetchingListFragment<shAirCardApp, VCard> {
-	
+
 	Long eventId;
 
 	public VCardListFragment(Event event) {
@@ -62,9 +62,16 @@ public class VCardListFragment extends
 						+ element.getSurname());
 				h.company.setText(element.getCompany());
 				// TODO get image uri
-				h.imageView
-						.setImageURI(Uri
-								.parse("http://shaircard.appspot.com/get_vcard_image?vcardId="+element.getId()));
+
+				if (element.getId() != -1) {
+
+					h.imageView
+							.setImageURI(Uri
+									.parse("http://shaircard.appspot.com/get_vcard_image?vcardId="
+											+ element.getId()));
+				} else {
+					h.imageView.setImageURI(Uri.parse(element.localUri));
+				}
 
 			}
 
@@ -98,7 +105,7 @@ public class VCardListFragment extends
 	@Override
 	public void onActivityCreated(final Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		setRequestBuilder(new VcardRequestBuilder(getOwnerActivity(),eventId));
+		setRequestBuilder(new VcardRequestBuilder(getOwnerActivity(), eventId));
 
 		getListView().setOnItemClickListener(new OnItemClickListener() {
 

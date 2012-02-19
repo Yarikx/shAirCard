@@ -123,7 +123,7 @@ public class shAirCardApp extends Application {
 
 	}
 
-	public void setVcards(ArrayList<VCard> vcards)
+	public void setMyVcards(ArrayList<VCard> vcards)
 			throws FileNotFoundException, IOException {
 		ObjectOutputStream oos = new ObjectOutputStream(openFileOutput(
 				MY_VCARDS_FILENAME, MODE_PRIVATE));
