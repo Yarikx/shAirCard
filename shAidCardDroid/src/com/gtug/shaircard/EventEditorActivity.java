@@ -58,18 +58,7 @@ public class EventEditorActivity extends
 	public boolean processModel(Event data) {
 		Log.d("callback", "IM FUCKING LOVE COCAINE");
 		shAirCardApp app = getApp();
-		try {
-			app.addFavorite(data);
-		} catch (StreamCorruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		app.addFavorite(data);
 		finish();
 		return true;
 	}

@@ -2,21 +2,29 @@ package com.gtug.shaircard;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.StreamCorruptedException;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 
 import com.gtug.shaircard.model.Event;
 import com.stanfy.app.activities.OneRequestModelActivity;
 import com.stanfy.serverapi.request.Operation;
 import com.stanfy.serverapi.request.ParameterValue;
 import com.stanfy.serverapi.request.RequestBuilder;
+import com.stanfy.serverapi.response.ResponseData;
 import com.stanfy.serverapi.response.json.GsonBasedResponseHandler;
+import com.stanfy.utils.ApiMethodsSupport.ApiSupportRequestCallback;
 import com.stanfy.views.list.ListView;
 import com.stanfy.views.list.ModelListAdapter;
 
@@ -26,22 +34,20 @@ class UpdateRequestBuilder extends RequestBuilder {
 		super(context);
 		ParameterValue value = new ParameterValue();
 		value.setName("value");
-		try {
-			value.setValue(GsonBasedResponseHandler.GBUILDER.create().toJson(
-					context.getApp().getFavorites()));
-		} catch (StreamCorruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		List<Event> fav;
+		fav = context.getApp().getFavorites();
+
+		ArrayList<Long> integers = new ArrayList<Long>();
+		for (Event event : fav) {
+			integers.add(event.getId());
 		}
+
+		value.setValue(GsonBasedResponseHandler.GBUILDER.create().toJson(
+				integers));
+
+		addParameter(value);
+
 	}
 
 	@Override
@@ -87,6 +93,21 @@ public class ShAirCardDroidActivity
 			}
 		});
 
+		listView.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> adapter, View arg1,
+					int position, long arg3) {
+				// TODO Auto-generated method stub
+				
+				getApp().removeFavorite((Event) adapter.getItemAtPosition(position));
+				update(null);
+				
+				
+				return true;
+			}
+		});
+
 		adapter = new ModelListAdapter<Event>(this,
 				EventListFragment
 						.createRenderer((shAirCardApp) getApplication()));
@@ -100,32 +121,106 @@ public class ShAirCardDroidActivity
 
 		fetch();
 
-		// // Get last known location
-		// Location loc = GPSLocation.getLastKnown(this);
-		// if (loc != null) {
-		// //TODO PUT THE REQUEST HERE
-		// Event closestEvent = new Event();
-		// if (closestEvent.getId() != -1) {
-		// //TODO CALL DIALOG HERE
-		// }
-		// }
+		// Get last known location
+		final Location loc = GPSLocation.getLastKnown(this);
+		if (loc != null) {
+
+			new RequestBuilder(this) {
+
+				{
+					addSimpleParameter("latitude", "" + loc.getLatitude());
+					addSimpleParameter("longitude", "" + loc.getLongitude());
+				}
+
+				@Override
+				public Operation getOperation() {
+					return OurOperation.GET_CLOSEST_EVENT;
+				}
+			}.execute();
+
+		}
+
+	}
+
+	@Override
+	public ApiSupportRequestCallback<ArrayList<Event>> createRequestCallback() {
+		return new ModelRequestCallback<ArrayList<Event>>(this) {
+			@Override
+			public boolean filterOperation(int token, int o) {
+
+				if (o == OurOperation.GET_CLOSEST_EVENT.getCode()
+						|| o == OurOperation.REFRESH_EVENTS.getCode()) {
+					return true;
+				} else {
+					return super.filterOperation(token, o);
+				}
+			}
+
+			@Override
+			protected void processSuccessUnknownModelType(int token,
+					int operation, ResponseData responseData, Serializable model) {
+				// TODO Auto-generated method stub
+
+				final Event event = (Event) model;
+
+				if (event.getId() != -1
+						&& !getApp().getFavorites().contains(event)) {
+
+					runOnUiThread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+
+							AlertDialog.Builder builder = new AlertDialog.Builder(
+									ShAirCardDroidActivity.this);
+
+							builder.setTitle(R.string.main_question);
+							builder.setMessage(event.getName() + "\n"
+									+ event.getAddress());
+							builder.setPositiveButton(android.R.string.yes,
+									new OnClickListener() {
+
+										@Override
+										public void onClick(
+												DialogInterface dialog,
+												int which) {
+											getApp().addFavorite(event);
+											update(null);
+											dialog.dismiss();
+
+										}
+									});
+
+							builder.setNegativeButton(android.R.string.no,
+									new OnClickListener() {
+
+										@Override
+										public void onClick(
+												DialogInterface dialog,
+												int which) {
+											dialog.dismiss();
+
+										}
+									});
+
+							builder.create().show();
+
+						}
+					});
+
+				}
+
+			}
+
+		};
+		// return super.createRequestCallback();
 
 	}
 
 	public void update(View view) {
-		try {
-			adapter.replace(app.getFavorites());
-			listView.setAdapter(adapter);
-
-		} catch (StreamCorruptedException e) {
-			e.printStackTrace();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+		adapter.replace(app.getFavorites());
+		listView.setAdapter(adapter);
 	}
 
 	public void searchEvents(View view) {
@@ -156,7 +251,16 @@ public class ShAirCardDroidActivity
 	public boolean processModel(ArrayList<Event> data) {
 		// TODO Auto-generated method stub
 		adapter.replace(data);
-		return false;
+		try {
+			getApp().setFavorites(data);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 	// @Override

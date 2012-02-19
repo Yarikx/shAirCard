@@ -45,7 +45,6 @@ public class EventListFragment extends
 		// }
 		// });
 
-
 	}
 
 	public static class EventHolder {
@@ -109,23 +108,10 @@ public class EventListFragment extends
 			public void onItemClick(AdapterView<?> adapter, View arg1,
 					int position, long arg3) {
 				Event event = (Event) adapter.getItemAtPosition(position);
-				try {
-					EventListFragment.this.getOwnerActivity().getApp()
-							.addFavorite(event);
-					getOwnerActivity().finish();
-				} catch (StreamCorruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				EventListFragment.this.getOwnerActivity().getApp()
+						.addFavorite(event);
+				getOwnerActivity().finish();
+
 			}
 		});
 	}
