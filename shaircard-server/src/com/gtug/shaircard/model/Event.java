@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @Entity
 public class Event extends Jsonable {
@@ -126,7 +127,7 @@ public class Event extends Jsonable {
 	}
 
 	public static String listToJson(List<Event> l) {
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss Z").create();
 		return gson.toJson(l);
 	}
 
